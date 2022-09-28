@@ -18,7 +18,7 @@ float task1(float x) {
 
 int task2(int divisible, int divider) {
     int counter = 0;
-    if (divisible < 0) {
+    if (divisible < 0 && divisible % divider != 0) {
         ++counter;
     }
 
@@ -69,28 +69,26 @@ int task4(void) {
 
 
 bool task5(char string[]) {
-    bool isCorrect = false;
-    int countBrackets = 0;
+    int countOpenedBrackets = 0;
 
     int stringLength = strlen(string);
 
-    if (stringLength >= 2) {
-        for (int i = 0; i < stringLength; ++i) {
-            if (string[i] == '(') {
-                ++countBrackets;
+
+    for (int i = 0; i < stringLength; ++i) {
+        if (string[i] == '(') {
+            ++countOpenedBrackets;
+        }
+        else {
+            if (string[i] == ')') {
+                --countOpenedBrackets;
             }
-            else {
-                if (string[i] == ')') {
-                    --countBrackets;
-                }
-                if (countBrackets < 0) {
-                    break;
-                }
+            if (countOpenedBrackets < 0) {
+                break;
             }
         }
     }
 
-    return (countBrackets == 0);
+    return (countOpenedBrackets == 0);
 }
 
 int task6(char string[], char substring[]) {
@@ -160,13 +158,13 @@ int main() {
             int arrayLength = 0;
 
 
-            int scanResult = 0;
-            while (scanResult < 2) {
+            bool isIncorrectInput = true;
+            while (isIncorrectInput) {
                 printf("Enter lengths of two parts of the array: ");
                 scanf("%d%d", &firstIndex, &secondIndex);
-                if (firstIndex >= 0) ++scanResult;
-                if (secondIndex >= 0) ++scanResult;
-                if (scanResult < 2) printf("Incorrect input. Both numbers aren't negative. Try again!\n");
+                if (firstIndex < 0 || secondIndex < 0) isIncorrectInput = true;
+                else isIncorrectInput = false;
+                if (isIncorrectInput) printf("Incorrect input. Both numbers aren't negative. Try again!\n");
             }
 
 
@@ -202,14 +200,11 @@ int main() {
         }
         case 5: {
             char string[100] = "";
-            bool result = false;
-
 
             printf("Enter the sequence: ");
             scanf("%s", string, 100);
 
-            result = task5(string);
-            if (result) {
+            if (task5(string)) {
                 printf("Bracket sequence is correct\n\n");
             }
             else {
@@ -223,7 +218,6 @@ int main() {
         case 6: {
             char string[100] = "";
             char substring[100] = "";
-            int result = 0;
 
 
             printf("Enter the string (<100 symbols): ");
@@ -231,8 +225,7 @@ int main() {
             printf("Enter the substring (<100 symbols): ");
             scanf("%s", substring, 100);
 
-            result = task6(string, substring);
-            printf("Amount of entries of substring in string is %d\n\n", result);
+            printf("Amount of entries of substring in string is %d\n\n", task6(string, substring));
 
 
             break;
@@ -242,45 +235,49 @@ int main() {
             bool arrayPrimeNumbers[arraySize] = { false };
 
 
-            //та же проблема с возвращением массива
 
-            printf("Enter your number (>0): ");
+            printf("Enter your number (0 < x < 1000): ");
             scanf("%d", &number);
 
             if (number < 0) {
                 printf("Your number is negative, try again\n\n");
+                break;
             }
-            else {
-                if (number == 0 || number == 1 || number == 2) {
-                    printf("There are no prime numbers below your number\n\n");
-                }
-                else {
-                    if (number > 2) {
-                        for (int i = 0; i <= number; ++i) {
-                            arrayPrimeNumbers[i] = true;
-                        }
 
-                        arrayPrimeNumbers[0] = false;
-                        arrayPrimeNumbers[1] = false;
+            if (number > 1000) {
+                printf("Your number is too big, try again\n\n");
+                break;
+            }
+            
+            if (number < 2) {
+                printf("There are no prime numbers below your number\n\n");
+                break;
+            }
+            
+            for (int i = 0; i <= number; ++i) {
+                arrayPrimeNumbers[i] = true;
+            }
 
-                        for (int i = 2; i <= number; ++i) {
-                            if (arrayPrimeNumbers[i] == true) {
-                                for (int j = i * 2; j <= number; j += i) {
-                                    arrayPrimeNumbers[j] = false;
-                                }
-                            }
-                        }
+            arrayPrimeNumbers[0] = false;
+            arrayPrimeNumbers[1] = false;
 
-                        printf("Prime numbers that are not above your number: ");
-                        for (int i = 0; i <= number; ++i) {
-                            if (arrayPrimeNumbers[i] == true) {
-                                printf("%d ", i);
-                            }
-                        }
-                        printf("\n\n");
+            for (int i = 2; i <= number; ++i) {
+                if (arrayPrimeNumbers[i] == true) {
+                    for (int j = i * 2; j <= number; j += i) {
+                        arrayPrimeNumbers[j] = false;
                     }
                 }
             }
+
+            printf("Prime numbers that are not above your number: ");
+            for (int i = 0; i <= number; ++i) {
+                if (arrayPrimeNumbers[i] == true) {
+                    printf("%d ", i);
+                }
+            }
+            printf("\n\n");
+            
+
             break;
         }
         case 8: {
