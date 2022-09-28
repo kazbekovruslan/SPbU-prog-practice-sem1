@@ -53,16 +53,17 @@ float exponentiationLog(float number, int degree)
 
 bool test()
 {
+    float delta = 0.01;
     for (float number = -10; number < 10; ++number)
     {
         for (int degree = -10; degree < 10; ++degree)
         {
             if (number != 0 && degree != 0)
             {
-                if (exponentiation(number,degree) != exponentiationLog(number,degree))
+                if (abs(exponentiation(number,degree) - exponentiationLog(number,degree)) > delta)
                 {   
                     printf("ERROR! TESTS FAILED!\n");
-                    printf("Number = %f, degree = %d, first = %f, second = %f\n", number, degree, exponentiation(number,degree), exponentiationLog(number,degree));
+                    printf("Number = %f, degree = %d, first = %f, second = %f, real delta = %f\n", number, degree, exponentiation(number,degree), exponentiationLog(number,degree), abs(exponentiation(number,degree) - exponentiationLog(number,degree)));
                     return false;
                 }
             }
@@ -76,8 +77,7 @@ bool test()
 
 void main(void)
 {
-    test();
-
+    if (!test()) return;
 
     float number = 0;
     int degree = 0;
