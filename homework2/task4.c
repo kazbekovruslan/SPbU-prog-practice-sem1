@@ -4,6 +4,14 @@
 
 #define arraySize 10
 
+void swap(int *firstElement, int *secondElement)
+{
+    int transitElement = *firstElement;
+    *firstElement = *secondElement;
+    *secondElement = transitElement;
+}
+
+
 void sort(int* array)
 {
     int transitElement = 0;
@@ -17,9 +25,7 @@ void sort(int* array)
     {
         if (array[i] <= pivot)
         {
-            transitElement = array[i];
-            array[i] = array[pivotIndex];
-            array[pivotIndex] = transitElement;
+            swap(&array[i], &array[pivotIndex]);
             lastIndexOfPivot = i;
             ++pivotIndex;
         }
@@ -27,9 +33,7 @@ void sort(int* array)
 
     if (array[pivotIndex] != pivot)
     {
-    transitElement = array[lastIndexOfPivot];
-    array[lastIndexOfPivot] = array[pivotIndex];
-    array[pivotIndex] = transitElement;
+    swap(&array[lastIndexOfPivot], &array[pivotIndex]);
     }
 
 }    
