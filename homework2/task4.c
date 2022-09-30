@@ -8,22 +8,30 @@ void sort(int* array)
 {
     int transitElement = 0;
     int pivot = array[0];
-    int index = 0;
+    int pivotIndex = 0;
+
+
+    int lastIndexOfPivot = 0;
 
     for (int i = 1; i < arraySize; ++i)
     {
-        if (array[i] < pivot)
+        if (array[i] <= pivot)
         {
             transitElement = array[i];
-            array[i] = array[index];
-            array[index] = transitElement;
-            ++index;
+            array[i] = array[pivotIndex];
+            array[pivotIndex] = transitElement;
+            lastIndexOfPivot = i;
+            ++pivotIndex;
         }
     }
 
-    transitElement = pivot;
-    pivot = array[index];
-    array[index] = transitElement;
+    if (array[pivotIndex] != pivot)
+    {
+    transitElement = array[lastIndexOfPivot];
+    array[lastIndexOfPivot] = array[pivotIndex];
+    array[pivotIndex] = transitElement;
+    }
+
 }    
 
 void main(void)
