@@ -14,7 +14,6 @@ void swap(int *firstElement, int *secondElement)
 
 int partition(int *array, int lowIndex, int highIndex)
 {
-    int transitElement = 0;
     int pivot = array[lowIndex];
     int pivotIndex = lowIndex;
 
