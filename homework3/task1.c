@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define arraySize 30
+#define arraySize 25
 
 void swap(int *firstElement, int *secondElement)
 {
@@ -11,16 +11,16 @@ void swap(int *firstElement, int *secondElement)
 }
 
 
-int partition(int *array, int low, int high)
+int partition(int *array, int lowIndex, int highIndex)
 {
     int transitElement = 0;
-    int pivot = array[low];
-    int pivotIndex = low;
+    int pivot = array[lowIndex];
+    int pivotIndex = lowIndex;
 
 
     int lastIndexOfPivot = 0;
 
-    for (int i = low + 1; i < high; ++i)
+    for (int i = lowIndex + 1; i < highIndex; ++i)
     {
         if (array[i] <= pivot)
         {
@@ -43,11 +43,11 @@ int partition(int *array, int low, int high)
 
 
 
-void insertSort(int *array, int low, int high)
+void insertSort(int *array, int lowIndex, int highIndex)
 {
     int transitElement = 0;
     int j = 0;
-    for (int i = low + 1; i < high; ++i)
+    for (int i = lowIndex + 1; i < highIndex; ++i)
     {
         transitElement = array[i];
         j = i - 1;
@@ -63,20 +63,20 @@ void insertSort(int *array, int low, int high)
 
 
 
-void quickSort(int *array, int low, int high)
+void quickSort(int *array, int lowIndex, int highIndex)
 {
     int pivotIndex = 0;
-    if (low < high) 
+    if (lowIndex < highIndex) 
     {
-        if (high - low < 10)
+        if (highIndex - lowIndex < 10)
         {
-            pivotIndex = partition(array, low, high);
-            quickSort(array, low, pivotIndex);
-            quickSort(array, pivotIndex + 1, high);
+            pivotIndex = partition(array, lowIndex, highIndex);
+            quickSort(array, lowIndex, pivotIndex);
+            quickSort(array, pivotIndex + 1, highIndex);
         }
         else
         {
-            insertSort(array, low, high);
+            insertSort(array, lowIndex, highIndex);
         }
     }
     
