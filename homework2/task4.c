@@ -14,7 +14,6 @@ void swap(int *firstElement, int *secondElement)
 
 void sort(int* array)
 {
-    int transitElement = 0;
     int pivot = array[0];
     int pivotIndex = 0;
 
