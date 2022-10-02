@@ -26,7 +26,7 @@ void sort(int* array)
         if (array[i] <= pivot)
         {
             swap(&array[i], &array[pivotIndex]);
-            lastIndexOfPivot = i;
+            if (array[i] == pivot) lastIndexOfPivot = i;
             ++pivotIndex;
         }
     }
