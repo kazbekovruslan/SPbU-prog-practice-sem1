@@ -118,7 +118,7 @@ void main(void)
 
     while (!scanResult || arrayLength <= 0)
     {
-        printf("Enter the array's length: ");
+        printf("Enter the array's length (<100): ");
         scanResult = scanf("%d", &arrayLength);
         if (!scanResult)
         {
