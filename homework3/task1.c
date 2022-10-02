@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define arraySize 25
 
@@ -90,6 +91,9 @@ void quickSort(int *array, int lowIndex, int highIndex)
 void main(void)
 {
     int array[arraySize] = { 0 };
+
+    srand(time(0));
+
     for (int i = 0; i < arraySize; ++i)
     {
         array[i] = rand() % 84;
