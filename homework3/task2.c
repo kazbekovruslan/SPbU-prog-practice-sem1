@@ -15,7 +15,6 @@ void swap(int *firstElement, int *secondElement)
 
 int partition(int *array, int lowIndex, int highIndex)
 {
-    int transitElement = 0;
     int pivot = array[lowIndex];
     int pivotIndex = lowIndex;
 
@@ -27,7 +26,7 @@ int partition(int *array, int lowIndex, int highIndex)
         if (array[i] <= pivot)
         {
             swap(&array[i], &array[pivotIndex]);
-            lastIndexOfPivot = i;
+            if (array[i] == pivot) lastIndexOfPivot = i;
             ++pivotIndex;
         }
     }

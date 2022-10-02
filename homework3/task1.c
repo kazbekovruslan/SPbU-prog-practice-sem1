@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define arraySize 25
+#define arraySize 10
 
 void swap(int *firstElement, int *secondElement)
 {
@@ -25,7 +25,7 @@ int partition(int *array, int lowIndex, int highIndex)
         if (array[i] <= pivot)
         {
             swap(&array[i], &array[pivotIndex]);
-            lastIndexOfPivot = i;
+            if (array[i] == pivot) lastIndexOfPivot = i;
             ++pivotIndex;
         }
     }
@@ -39,6 +39,7 @@ int partition(int *array, int lowIndex, int highIndex)
 
     return pivotIndex;
 }    
+
 
 
 
@@ -68,7 +69,7 @@ void quickSort(int *array, int lowIndex, int highIndex)
     int pivotIndex = 0;
     if (lowIndex < highIndex) 
     {
-        if (highIndex - lowIndex < 10)
+        if (highIndex - lowIndex > 10)
         {
             pivotIndex = partition(array, lowIndex, highIndex);
             quickSort(array, lowIndex, pivotIndex);
@@ -79,7 +80,6 @@ void quickSort(int *array, int lowIndex, int highIndex)
             insertSort(array, lowIndex, highIndex);
         }
     }
-    
 }
 
 
@@ -90,9 +90,8 @@ void quickSort(int *array, int lowIndex, int highIndex)
 void main(void)
 {
     int array[arraySize] = { 0 };
-
     srand(time(0));
-
+    
     for (int i = 0; i < arraySize; ++i)
     {
         array[i] = rand() % 84;
