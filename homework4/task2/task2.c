@@ -47,7 +47,7 @@ int main()
     {
         ++sizeOfArray;
     }
-    fseek(file, 0L, SEEK_SET); 
+    fseek(file, 0, SEEK_SET); 
     
     if (sizeOfArray == 0)
     {
