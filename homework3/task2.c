@@ -105,10 +105,31 @@ bool binarySearch(int *array, int number, int lowIndex, int highIndex)
     }
 }
 
+bool test()
+{
+    int array[10] = { 4, 5, 10, 3, 5, 15, 32, 1, -2, 61 };
+    quickSort(array, 0, 10);
+    for (int i = 0; i < 10; ++i)
+    {
+        if (binarySearch(array, array[i], 0, 9) != true)
+        {
+            return false;
+        }
+    }
+    return true;
 
+}
 
 void main(void)
 {
+    if (test())
+    {
+        printf("TEST PASSED!\n");
+    }
+    else
+    {
+        printf("TEST FAILED!\n");
+    }
     int arrayLength = -1;
     int amountOfNumbers = -1;
     int array[arraySize] = { 0 };
@@ -136,8 +157,8 @@ void main(void)
 
 
     printf("Your array: ");
-    quickSort(array, 0, arrayLength);
     for (int i = 0; i < arrayLength; ++i) printf("%d ", array[i]);
+    quickSort(array, 0, arrayLength);
 
     printf("\n");
 
