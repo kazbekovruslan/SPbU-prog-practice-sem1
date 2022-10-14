@@ -105,7 +105,7 @@ bool test()
 
 void main(void)
 {
-    if (test() == true)
+    if (test())
     {
         printf("TEST PASSED!\n");
     }
