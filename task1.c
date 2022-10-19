@@ -66,7 +66,6 @@ int main()
 
     printf("Enter the string: ");
     scanf("%s", string);
-    printf("%s\n", string);
 
     if (isPalindrome(string, stringLength))
     {
