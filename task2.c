@@ -64,13 +64,13 @@ int main()
     }
     int arrayLength = 0;
     int scanResult = 0;
-    while (!scanResult)
+    while (!scanResult && arrayLength <= 0)
     {
         printf("Enter the length of array for choose sort: ");
         scanResult = scanf("%d", &arrayLength);
         if (!scanResult)
         {
-            printf("Numbers are required! Try again!");
+            printf("Number (>0) is required! Try again!");
             scanf("%*[^\n]");
         }
     }

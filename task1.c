@@ -54,8 +54,18 @@ int main()
     }
 
     int stringLength = 0;
-    printf("Enter the length of the string: ");
-    scanf("%d", &stringLength);
+
+    int scanResult = 0;
+    while (!scanResult && stringLength <= 0)
+    {
+        printf("Enter the length of the string: ");
+        scanResult = scanf("%d", &stringLength);
+        if (!scanResult)
+        {
+            printf("Number (>0) is required! Try again!");
+            scanf("%*[^\n]");
+        }
+    }
 
     char *string = (char*) calloc(stringLength + 1, sizeof(char));
     if (string == NULL)
