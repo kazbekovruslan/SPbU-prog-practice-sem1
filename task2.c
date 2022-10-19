@@ -98,6 +98,7 @@ int main()
     }
 
     selectionSort(array, arrayLength);
+    printf("Your array: ");
     printArray(array, arrayLength);
     
     return 0;
