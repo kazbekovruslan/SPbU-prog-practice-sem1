@@ -103,7 +103,7 @@ int top(Stack *stack)
     }
     if (stack->head == NULL)
     {
-        return -1;
+        return -2;
     }
     return stack->head->value;
 }
