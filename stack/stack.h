@@ -30,4 +30,4 @@ int freeStack(Stack *stack);
 //clearing the stack
 
 //all returns -1 because of errors with memory
-//returns -2 because of there is no necessary element
+//top returns -2 because of there is no necessary element
