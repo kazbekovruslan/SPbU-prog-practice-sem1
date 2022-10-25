@@ -51,13 +51,14 @@ int pop(Stack *stack)
     {
         return -1;
     }
-    int poppedValue = stack->head->value;
-
+    if (stack->head == NULL)
+    {
+        return -2;
+    }
     StackElement *headElement = stack->head;
     stack->head = headElement->next;
 
     free(headElement);
-    return poppedValue;
 }
 
 int printStack(Stack *stack)

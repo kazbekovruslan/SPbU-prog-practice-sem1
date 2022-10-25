@@ -12,7 +12,7 @@ int push(Stack *stack, int value);
 //pushing new element on top of the stack
 
 int pop(Stack *stack);
-//deleting top element of the stack and returning it
+//only deleting top element of the stack without returning it
 
 int printStack(Stack *stack);
 //printing stack
@@ -30,4 +30,4 @@ int freeStack(Stack *stack);
 //clearing the stack
 
 //all returns -1 because of errors with memory
-//top returns -2 because of there is no necessary element
+//all returns -2 because of there is no necessary element
