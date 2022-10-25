@@ -1,12 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../stack/stack.h"
 
-bool areBracketsBalanced(char *sequence, int lengthOfSequence)
+int areBracketsBalanced(char *sequence, bool *result)
 {
     Stack *stack = stackCreate();
+    if (stack == NULL)
+    {
+        return -1;
+    }
 
     int errorCode = 0;
+    int lengthOfSequence = strlen(sequence);
+
+    int topElement = 0;
+    int poppedElement = 0;
 
     for (int i = 0; i < lengthOfSequence; ++i)
     {
@@ -19,62 +28,121 @@ bool areBracketsBalanced(char *sequence, int lengthOfSequence)
                 errorCode = push(stack, sequence[i]);
                 if (errorCode == -1)
                 {
-                    printf("Memory error!\n");
+                    freeStack(stack);
+                    free(stack);
                     return -1;
                 }
                 break;
             }
             case ')':
             {
-                if (errorCode = top(stack) == (int)'(')
+                errorCode = top(stack, &topElement);
+                if (errorCode == -1)
                 {
-                    if (errorCode == -2)
+                    freeStack(stack);
+                    free(stack);
+                    return -1;
+                }
+                if (errorCode == -2)
+                {
+                    *result = false;
+                    freeStack(stack);
+                    free(stack);
+                    return -5;
+                }
+
+                if (topElement == (int)'(')
+                {
+                    errorCode = pop(stack, &poppedElement);
+                    if (errorCode != 0)
                     {
-                        return false;
+                        freeStack(stack);
+                        free(stack);
+                        return errorCode;
                     }
-                    pop(stack);
                 }
                 else
                 {
-                    return false;
+                    *result = false;
+                    return -5;
                 }
                 break;
             }
             case '}':
             {
-                if (errorCode = top(stack) == (int)'{')
+                errorCode = top(stack, &topElement);
+                if (errorCode == -1)
                 {
-                    if (errorCode == -2)
+                    freeStack(stack);
+                    free(stack);
+                    return -1;
+                }
+                if (errorCode == -2)
+                {
+                    *result = false;
+                    freeStack(stack);
+                    free(stack);
+                    return -5;
+                }
+
+                if (topElement == (int)'{')
+                {
+                    errorCode = pop(stack, &poppedElement);
+                    if (errorCode != 0)
                     {
-                        return false;
+                        freeStack(stack);
+                        free(stack);
+                        return errorCode;
                     }
-                    pop(stack);
                 }
                 else
                 {
-                    return false;
+                    *result = false;
+                    return -5;
                 }
                 break;
             }
             case ']':
             {
-                if (errorCode = top(stack) == (int)'[')
+                errorCode = top(stack, &topElement);
+                if (errorCode == -1)
                 {
-                    if (errorCode == -2)
+                    freeStack(stack);
+                    free(stack);
+                    return -1;
+                }
+                if (errorCode == -2)
+                {
+                    *result = false;
+                    freeStack(stack);
+                    free(stack);
+                    return -5;
+                }
+
+                if (topElement == (int)'[')
+                {
+                    errorCode = pop(stack, &poppedElement);
+                    if (errorCode != 0)
                     {
-                        return false;
+                        freeStack(stack);
+                        free(stack);
+                        return errorCode;
                     }
-                    pop(stack);
                 }
                 else
                 {
-                    return false;
+                    *result = false;
+                    return -5;
                 }
                 break;
             }
         }
     }
-    return len(stack) == 0;
+
+    *result = isEmpty(stack);
+    freeStack(stack);
+    free(stack);
+    return 0;
 }
 
 int main()
@@ -112,7 +180,22 @@ int main()
         return -1;
     }
     
-    if (areBracketsBalanced(sequence, lengthOfSequence))
+    bool result = false;
+    int errorCode = areBracketsBalanced(sequence, &result);
+    free(sequence);
+    if (errorCode == -1)
+    {
+        printf("Memory error!\n");
+        return -1;
+    }
+    if (errorCode == -2)
+    {
+        printf("Stack elements error!\n");
+        return -2;
+    }
+    //errorCode == -5 - all good but result of test is "false"
+
+    if (result)
     {
         printf("Brackets in your sequence are balanced!\n");
     }
