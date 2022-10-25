@@ -18,6 +18,10 @@ typedef struct Stack
 Stack *stackCreate()
 {
     Stack *stack = calloc(1, sizeof(stack));
+    if (stack == NULL)
+    {
+        return NULL;
+    }
     return stack;
 }
 
@@ -45,7 +49,7 @@ int push(Stack *stack, int value)
     return 0;
 }
 
-int pop(Stack *stack)
+int pop(Stack *stack, int *poppedElement)
 {
     if (stack == NULL)
     {
@@ -57,8 +61,9 @@ int pop(Stack *stack)
     }
     StackElement *headElement = stack->head;
     stack->head = headElement->next;
-
+    *poppedElement = headElement->value;
     free(headElement);
+    return 0;
 }
 
 int printStack(Stack *stack)
@@ -78,7 +83,7 @@ int printStack(Stack *stack)
     return 0;
 }
 
-int len(Stack *stack)
+int len(Stack *stack, int *lengthOfStack)
 {
     if (stack == NULL)
     {
@@ -93,10 +98,11 @@ int len(Stack *stack)
         ++length;
         currentElement = currentElement->next;
     }
-    return length;
+    *lengthOfStack = length;
+    return 0;
 }
 
-int top(Stack *stack)
+int top(Stack *stack, int *topElement)
 {
     if (stack == NULL)
     {
@@ -106,7 +112,8 @@ int top(Stack *stack)
     {
         return -2;
     }
-    return stack->head->value;
+    *topElement = stack->head->value;
+    return 0;
 }
 
 bool isEmpty(Stack *stack)
