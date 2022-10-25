@@ -18,10 +18,6 @@ typedef struct Stack
 Stack *stackCreate()
 {
     Stack *stack = calloc(1, sizeof(stack));
-    if (stack == NULL)
-    {
-        return NULL;
-    }
     return stack;
 }
 
