@@ -48,7 +48,7 @@ int areBracketsBalanced(char *sequence, bool *result)
                     *result = false;
                     freeStack(stack);
                     free(stack);
-                    return -5;
+                    return 0;
                 }
 
                 if (topElement == (int)'(')
@@ -64,7 +64,7 @@ int areBracketsBalanced(char *sequence, bool *result)
                 else
                 {
                     *result = false;
-                    return -5;
+                    return 0;
                 }
                 break;
             }
@@ -82,7 +82,7 @@ int areBracketsBalanced(char *sequence, bool *result)
                     *result = false;
                     freeStack(stack);
                     free(stack);
-                    return -5;
+                    return 0;
                 }
 
                 if (topElement == (int)'{')
@@ -98,7 +98,7 @@ int areBracketsBalanced(char *sequence, bool *result)
                 else
                 {
                     *result = false;
-                    return -5;
+                    return 0;
                 }
                 break;
             }
@@ -116,7 +116,7 @@ int areBracketsBalanced(char *sequence, bool *result)
                     *result = false;
                     freeStack(stack);
                     free(stack);
-                    return -5;
+                    return 0;
                 }
 
                 if (topElement == (int)'[')
@@ -132,7 +132,7 @@ int areBracketsBalanced(char *sequence, bool *result)
                 else
                 {
                     *result = false;
-                    return -5;
+                    return 0;
                 }
                 break;
             }
@@ -145,8 +145,54 @@ int areBracketsBalanced(char *sequence, bool *result)
     return 0;
 }
 
+bool test1()
+{
+    char sequence[10] = "([({dd})])";
+    bool result = false;
+    int errorCode = areBracketsBalanced(sequence, &result);
+    if (errorCode != 0 || !result)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool test2()
+{
+    char sequence[15] = "{{[d([{[]}])]}}";
+    bool result = false;
+    int errorCode = areBracketsBalanced(sequence, &result);
+    if (errorCode != 0 || !result)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool test3()
+{
+    char sequence[5] = "[{})]";
+    bool result = false;
+    int errorCode = areBracketsBalanced(sequence, &result);
+    if (errorCode != 0 || result)
+    {
+        return false;
+    }
+    return true;
+}
+
+
 int main()
 {
+    if (test1() && test2() && test3())
+    {
+        printf("Tests passed!\n");
+    }
+    else
+    {
+        printf("Tests failed!\n");
+        return -10;
+    }
     int lengthOfSequence = -1;
     int scanResult = 0;
 
@@ -193,7 +239,6 @@ int main()
         printf("Stack elements error!\n");
         return -2;
     }
-    //errorCode == -5 - all good but result of test is "false"
 
     if (result)
     {
