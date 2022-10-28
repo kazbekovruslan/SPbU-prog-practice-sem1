@@ -106,6 +106,8 @@ int main()
         else
         {
             printf("Incorrect input. Input only '+', '-', '*', '/' and numbers 0 - 9\n");
+            freeStack(stack);
+            free(stack);
             return -1;
         }
     }
