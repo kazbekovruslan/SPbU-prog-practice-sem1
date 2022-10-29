@@ -23,6 +23,7 @@ int main()
     {
         int function = 0;
         int scanResult = 0;
+        Value value = 0;
         while (!scanResult || !(function >= 0 && function <= 3))
         {
             printf("\nEnter the number of the function (0 - 3): ");
@@ -37,7 +38,6 @@ int main()
         {
             case 1:
             {
-                int value = 0;
                 scanResult = 0;
                 while (!scanResult)
                 {
@@ -59,7 +59,6 @@ int main()
             }
             case 2:
             {
-                int value = 0;
                 scanResult = 0;
                 while (!scanResult)
                 {
