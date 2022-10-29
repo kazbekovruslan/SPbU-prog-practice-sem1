@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 
-float exponentiation(float number, int degree)
+float slowPow(float number, int degree)
 {
     float exponentiatedNumber = 1;
 
@@ -22,31 +22,29 @@ float exponentiation(float number, int degree)
     return exponentiatedNumber;
 }
 
-
-float exponentiationLog(float number, int degree)
+float fastPow(float number, int degree)
 {
-    float transitNumber = number;
+    float tmpNumber = number;
     float exponentiatedNumber = 1;
     bool isDegreeNegative = false;
 
     if (degree == 0) return 1;
 
-    if (degree < 0) isDegreeNegative = true;
+    isDegreeNegative  = degree < 0;
 
     degree = abs(degree);
-    
     
     while (degree != 0)
     {
         if (degree % 2 == 1)
         {
-            exponentiatedNumber *= transitNumber;
+            exponentiatedNumber *= tmpNumber;
         }
-        transitNumber = transitNumber * transitNumber;
+        tmpNumber = tmpNumber * tmpNumber;
         degree /= 2;
     }
 
-    if (isDegreeNegative) return 1/exponentiatedNumber;
+    if (isDegreeNegative) return 1 / exponentiatedNumber;
     return exponentiatedNumber;
 }
 
@@ -60,10 +58,10 @@ bool test()
         {
             if (number != 0 && degree != 0)
             {
-                if (abs(exponentiation(number,degree) - exponentiationLog(number,degree)) > delta)
+                if (abs(slowPow(number, degree) - fastPow(number, degree)) > delta)
                 {   
                     printf("ERROR! TESTS FAILED!\n");
-                    printf("Number = %f, degree = %d, first = %f, second = %f, real delta = %f\n", number, degree, exponentiation(number,degree), exponentiationLog(number,degree), abs(exponentiation(number,degree) - exponentiationLog(number,degree)));
+                    printf("Number = %f, degree = %d, first = %f, second = %f, real delta = %f\n", number, degree, slowPow(number,degree), fastPow(number,degree), abs(slowPow(number,degree) - fastPow(number,degree)));
                     return false;
                 }
             }
@@ -71,9 +69,6 @@ bool test()
     }
     return true;
 }
-
-
-
 
 void main(void)
 {
@@ -94,7 +89,6 @@ void main(void)
         }
     }
 
-
     scanResult = 0;
     while (!scanResult)
     {
@@ -109,19 +103,18 @@ void main(void)
 
     if (degree == 0 && number == 0)
     {
-        printf("0/0 is undetermined\n");
+        printf("0^0 is undetermined\n");
         return;
     }
-
 
     int typeOfExponentiation = 0;
     scanResult = 0;
     printf("What type of exponentiation do you want to use? ");
-    while (!scanResult)
+    while (!scanResult || !(typeOfExponentiation >= 1 && typeOfExponentiation <= 2))
     {
         printf("1 - O(n), 2 - O(log n)\nEnter here: ");
         scanResult = scanf_s("%d", &typeOfExponentiation);
-        if (!scanResult)
+        if (!scanResult || !(typeOfExponentiation >= 1 && typeOfExponentiation <= 2))
         {
             printf("Incorrect input. Number is required. Try again!\n");
             scanf_s("%*[^\n]");
@@ -132,10 +125,10 @@ void main(void)
 
     if (typeOfExponentiation == 1)
     {
-        printf("%f", exponentiation(number, degree));
+        printf("%f", slowPow(number, degree));
     }
     else
     {
-        printf("%f", exponentiationLog(number, degree));
+        printf("%f", fastPow(number, degree));
     }
 }
