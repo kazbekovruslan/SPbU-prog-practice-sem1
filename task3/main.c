@@ -16,11 +16,24 @@ int operationPriority (char operation)
     {
         return 2;
     }
-    return 0;
+    if (operation == '(')
+    {
+        return 3;
+    }
+    if (operation == ')')
+    {
+        return 4;
+    }
+    return 5;
+}
+
+bool isOperation(char c) {
+    return c == '+' || c == '-' || c == '*' || c == '/';
 }
 
 void addChar(char *output, int *index, const char ch) {
     output[(*index)++] = ch;
+    output[(*index)++] = ' ';
 }
 
 int sortingStation(const char *sequence, const int lengthOfSequence, char *output)
@@ -33,113 +46,114 @@ int sortingStation(const char *sequence, const int lengthOfSequence, char *outpu
 
     int errorCode = 0;
     int outputIndex = 0;
+    int topElement = 0;
 
     for (int i = 0; i < lengthOfSequence; ++i)
     {
         if (sequence[i] == '+' || sequence[i] == '-' || sequence[i] == '*' || sequence[i] == '/')
         {
-            int topElement = 0;
-            errorCode = top(stack, &topElement);
-            if (errorCode == -1)
+            if (!isEmpty(stack))
+            {
+                if (errorCode = top(stack, &topElement) != 0)
+                {
+                    freeStack(stack);
+                    free(stack);
+                    return errorCode;
+                }
+
+                while (!isEmpty(stack) && operationPriority(topElement) >= operationPriority(sequence[i]))
+                {
+                    addChar(output, &outputIndex, topElement);
+                    if (errorCode = pop(stack, &topElement) != 0)
+                    {
+                        freeStack(stack);
+                        free(stack);
+                        return errorCode;
+                    }
+
+                    if (!isEmpty(stack))
+                    {
+                        if (errorCode = top(stack, &topElement) != 0)
+                        {
+                            freeStack(stack);
+                            free(stack);
+                            return errorCode;
+                        }
+                    }
+                }
+            }
+            
+            if (errorCode = push(stack, sequence[i]) != 0)
             {
                 freeStack(stack);
                 free(stack);
-                return -1;
-            }
-            while (operationPriority(topElement) >= operationPriority(sequence[i]))
-            {
-                addChar(output, &outputIndex, sequence[i]);
-            }
-            errorCode = push(stack, sequence[i]);
-            if (errorCode == -1)
-            {
-                freeStack(stack);
-                free(stack);
-                return -1;
+                return errorCode;
             }
         }
+        
         else if (sequence[i] == '(')
         {
-            errorCode = push(stack, sequence[i]);
-            if (errorCode == -1)
+            if (errorCode = push(stack, sequence[i]) != 0)
             {
                 freeStack(stack);
                 free(stack);
-                return -1;
+                return errorCode;
             }
         }
+        
         else if (sequence[i] == ')')
         {
-            int topElement = 0;
-            errorCode = top(stack, &topElement);
-            if (errorCode == -1)
+            if (isEmpty(stack))
             {
                 freeStack(stack);
                 free(stack);
                 return -1;
             }
-            if (errorCode == -2)
+            if (errorCode = top(stack, &topElement) != 0)
             {
                 freeStack(stack);
                 free(stack);
-                return -2;
+                return errorCode;
             }
-            while (topElement != '(')
+            while (!isEmpty(stack) && topElement != '(')
             {
-                int poppedElement = 0;
-                errorCode = pop(stack, &poppedElement);
-                if (errorCode == -1)
+                addChar(output, &outputIndex, topElement);
+                if (errorCode = pop(stack, &topElement) != 0)
                 {
                     freeStack(stack);
                     free(stack);
-                    return -1;
+                    return errorCode;
                 }
-                if (errorCode == -2)
+                if (errorCode = top(stack, &topElement) != 0)
                 {
                     freeStack(stack);
                     free(stack);
-                    return -3;
+                    return errorCode;
                 }
-
-                int topElement = 0; //new top element
-                errorCode = top(stack, &topElement);
-                if (errorCode == -1)
-                {
-                    freeStack(stack);
-                    free(stack);
-                    return -1;
-                }
-                if (errorCode == -2)
-                {
-                    freeStack(stack);
-                    free(stack);
-                    return -3;
-                }
-                addChar(output, &outputIndex, poppedElement);
             }
-
-            int poppedElement = 0; // opened bracket
-            errorCode = pop(stack, &poppedElement);
-            if (errorCode == -1)
+            if (isEmpty(stack))
             {
                 freeStack(stack);
                 free(stack);
                 return -1;
             }
-            if (errorCode == -2)
+            if (errorCode = pop(stack, &topElement) != 0)
             {
                 freeStack(stack);
                 free(stack);
-                return -2;
+                return errorCode;
             }
         }
+
         else if ((int)sequence[i] >= 48 && (int)sequence[i] <= 57) // == digit (in our case == number)
         {
             addChar(output, &outputIndex, sequence[i]);
         }
+        
         else if (sequence[i] == ' ')
         {
         }
+
         else
         {
             freeStack(stack);
@@ -147,34 +161,24 @@ int sortingStation(const char *sequence, const int lengthOfSequence, char *outpu
             return -5; //wrong input
         }
     }
-    int lengthOfStack = 0;
-    errorCode = len(stack, &lengthOfStack);
-    if (errorCode == -1)
+
+    topElement = 0;
+    while (!isEmpty(stack))
     {
-        freeStack(stack);
-        free(stack);
-        return -1;
-    }
-    for (int i = 0; i < lengthOfStack; ++i)
-    {
-        int poppedElement = 0;
-        errorCode = pop(stack, &poppedElement);
-        if (errorCode == -1)
+        if (errorCode = pop(stack, &topElement) != 0 || !isOperation(topElement))
         {
             freeStack(stack);
             free(stack);
-            return -1;
+            return errorCode;
         }
-        if (errorCode == -2)
-        {
-            freeStack(stack);
-            free(stack);
-            return -2;
-        }
-        addChar(output, &outputIndex, poppedElement);
+        addChar(output, &outputIndex, topElement);
     }
+    freeStack(stack);
+    free(stack);
     return 0;
 }
+
+
 
 int main()
 {
