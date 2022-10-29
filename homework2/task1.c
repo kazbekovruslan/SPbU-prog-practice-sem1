@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-
 int recursiveFibonacciNumber(int number)
 {
     if (number < 3)
@@ -14,7 +13,6 @@ int recursiveFibonacciNumber(int number)
     }
 }
 //при n >= 39 уже очень заметно
-
 
 int iterativeFibonacciNumber(int number)
 {
@@ -29,7 +27,6 @@ int iterativeFibonacciNumber(int number)
     return currentFibonacciNumber;
 }
 
-
 bool test1(void)
 {
     for (int i = 0; i < 35; ++i)
@@ -42,25 +39,15 @@ bool test1(void)
     return true;
 }
 
-
 bool test2(void)
 {
-    if (recursiveFibonacciNumber(36) != 14930352 || iterativeFibonacciNumber(36) != 14930352)
-    {
-        return false;
-    }
-    return true;
+    return recursiveFibonacciNumber(36) != 14930352 || iterativeFibonacciNumber(36) != 14930352;
 }
 
 bool test3(void)
 {
-    if (recursiveFibonacciNumber(2) != 1 || iterativeFibonacciNumber(2) != 1)
-    {
-        return false;
-    }
-    return true;
+    return recursiveFibonacciNumber(2) != 1 || iterativeFibonacciNumber(2) != 1;
 }
-
 
 void main(void)
 {
@@ -70,11 +57,7 @@ void main(void)
         return;
     }
 
-
-
     int number = 0;
-
-
     int scanResult = 0;
 
     while (!scanResult || number <= 0)
