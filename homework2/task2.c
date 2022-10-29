@@ -116,7 +116,7 @@ void main(void)
         scanResult = scanf_s("%d", &typeOfExponentiation);
         if (!scanResult || !(typeOfExponentiation >= 1 && typeOfExponentiation <= 2))
         {
-            printf("Incorrect input. Number is required. Try again!\n");
+            printf("Incorrect input. Number 1 or 2 is required. Try again!\n");
             scanf_s("%*[^\n]");
         }
     }
