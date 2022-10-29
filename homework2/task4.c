@@ -15,31 +15,28 @@ void swap(int *firstElement, int *secondElement)
 void sort(int* array)
 {
     int pivot = array[0];
+    int currElement = 0;
+
     int pivotIndex = 0;
-
-
-    int lastIndexOfPivot = 0;
 
     for (int i = 1; i < arraySize; ++i)
     {
-        if (array[i] <= pivot)
+        if (array[i] < pivot)
         {
-            swap(&array[i], &array[pivotIndex]);
-            if (array[i] == pivot) lastIndexOfPivot = i;
-            ++pivotIndex;
+            swap(&array[i], &array[currElement]);
+            if (array[i] == pivot) pivotIndex = i;
+            ++currElement;
         }
     }
 
-    if (array[pivotIndex] != pivot)
+    if (array[currElement] != pivot)
     {
-    swap(&array[lastIndexOfPivot], &array[pivotIndex]);
+    swap(&array[pivotIndex], &array[currElement]);
     }
-
-}    
+}
 
 void main(void)
 {
-
     int array[arraySize] = { 0 };
 
     srand(time(0));
@@ -53,5 +50,4 @@ void main(void)
     sort(array);
     printf("\nArray  after: ");
     for (int i = 0; i < arraySize; ++i) printf("%d ", array[i]);
-    
 }
