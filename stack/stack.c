@@ -129,9 +129,10 @@ int freeStack(Stack *stack)
     }
 
     StackElement *currentElement = stack->head;
+    StackElement *nextElement = NULL;
     while (currentElement != NULL)
     {
-        StackElement *nextElement = currentElement->next;
+        nextElement = currentElement->next;
         free(currentElement);
         currentElement = nextElement;
     }
