@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-int recursiveFibonacciNumber(int number)
+int recursiveFibonacciNumber(unsigned int number)
 {
-    if (number < 3)
+    if (number == 0)
+    {
+        return 0;
+    }
+    else if (number < 3)
     {
         return 1;
     }
