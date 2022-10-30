@@ -2,17 +2,9 @@
 
 typedef int Error;
 
-typedef struct Node
-{
-    int number;
-    struct Node *next;
-} Node;
+typedef struct Node Node;
 
-typedef struct List
-{
-    Node *tail;
-    Node *head;
-} List;
+typedef struct List List;
 
 List *listCreate();
 
