@@ -114,6 +114,7 @@ bool isLength1(List *list)
     {
         return true;
     }
+    return false;
 }
 
 Error freeList(List *list)
