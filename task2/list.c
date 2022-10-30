@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "list.h"
 
@@ -101,6 +102,18 @@ Error printList(List *list)
     if (currentNode != NULL) printf("%d", currentNode->number);
     printf("\n");
     return 0;
+}
+
+bool isLength1(List *list)
+{
+    if (list == NULL)
+    {
+        return false;
+    }
+    if (list->tail == list->head && list->head != NULL)
+    {
+        return true;
+    }
 }
 
 Error freeList(List *list)
