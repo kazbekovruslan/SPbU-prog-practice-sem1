@@ -19,7 +19,7 @@ typedef struct List
 
 List *listCreate()
 {
-    List *list = calloc(1, sizeof(list));
+    List *list = calloc(1, sizeof(List));
     return list;
 }
 
