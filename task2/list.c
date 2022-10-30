@@ -106,15 +106,16 @@ Error printList(List *list)
 
 bool isLength1(List *list)
 {
-    if (list == NULL)
-    {
-        return false;
-    }
     if (list->tail == list->head && list->head != NULL)
     {
         return true;
     }
     return false;
+}
+
+int lastElement(List *list)
+{
+    return list->head->number;
 }
 
 Error freeList(List *list)
