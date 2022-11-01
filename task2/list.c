@@ -48,7 +48,7 @@ Error addNumber(List *list, int number)
     return 0;
 }
 
-Error removeNumber(List *list, int number)
+Error removeNumbers(List *list, int step)
 {
     if (list == NULL)
     {
@@ -57,32 +57,25 @@ Error removeNumber(List *list, int number)
 
     Node *currentNode = list->head;
     Node *previousNode = list->tail;
-    int counter = 0;
-    while (currentNode->number != number && counter != 1)
+    while (!isLength1(list))
     {
-        previousNode = currentNode;
-        currentNode = currentNode->next;
-        if (currentNode->next == list->head) ++counter;
-    }
-
-    if (counter == 1) return -3; //нет такого элемента
-
-    if (currentNode == list->head) //первый
-    {
-        list->tail->next = list->head->next;
-        list->head = currentNode->next;
-    }
-    if (currentNode == list->tail) //последний
-    {
-        previousNode->next = list->head;
-        list->tail = previousNode;
-    }
-    else //в середине
-    {
+        for (int i = 0; i < step - 1; ++i)
+        {
+            previousNode = currentNode;
+            currentNode = currentNode->next;
+        }
+        if (currentNode->number == list->head->number) //если удаляется голова
+        {
+            list->head = currentNode->next;
+        }
+        if (currentNode->number == list->tail->number) //если удаляется хвост
+        {
+            list->tail = previousNode;
+        }
         previousNode->next = currentNode->next;
+        free(currentNode);
+        currentNode = previousNode->next;
     }
-    
-    free(currentNode);
     return 0;
 }
 

@@ -15,11 +15,7 @@ int lastSurvivor(int amountOfSoldiers, int step)
         addNumber(list, i);
     }
 
-    while (!isLength1(list))
-    {
-        removeNumber(list, (step-1) % amountOfSoldiers);
-        ++step;
-    }
+    removeNumbers(list, step);
 
     return lastElement(list);
 }

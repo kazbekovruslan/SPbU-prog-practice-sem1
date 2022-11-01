@@ -11,7 +11,7 @@ List *listCreate();
 
 Error addNumber(List *list, int number);
 
-Error removeNumber(List *list, int number);
+Error removeNumbers(List *list, int step);
 
 Error printList(List *list);
 
