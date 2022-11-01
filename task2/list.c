@@ -133,7 +133,5 @@ Error freeList(List *list)
         currentNode = nextElement;
     }
     free(currentNode);
-    list->head = NULL;
-    list->tail = NULL;
     return 0;
 }

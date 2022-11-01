@@ -137,6 +137,5 @@ Error freeList(List *list)
         free(currentElement);
         currentElement = nextElement;
     }
-    list->head = NULL;
     return 0;
 }
