@@ -106,9 +106,18 @@ bool isLength1(List *list)
     return false;
 }
 
-int firstElement(List *list)
+Error firstElement(List *list, int *lastStanding)
 {
-    return list->head->number;
+    if (list == NULL)
+    {
+        return -1;
+    }
+    if (list->head == NULL)
+    {
+        return -1;
+    }
+    *lastStanding = list->head->number;
+    return 0;
 }
 
 Error freeList(List *list)

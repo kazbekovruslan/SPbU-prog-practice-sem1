@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include "list.h"
 
@@ -10,18 +11,50 @@ int lastSurvivor(int amountOfSoldiers, int step)
         return -1;
     }
 
+    int errorCode = 0;
+
     for (int i = 0; i < amountOfSoldiers; ++i)
     {
-        addNumber(list, i);
+        errorCode = addNumber(list, i);
+        if (errorCode != 0)
+        {
+            freeList(list);
+            free(list);
+            return errorCode;
+        }
     }
 
-    removeNumbers(list, step);
+    errorCode = removeNumbers(list, step);
+    if (errorCode != 0)
+    {
+        freeList(list);
+        free(list);
+        return errorCode;
+    }
 
-    return lastElement(list);
+    int lastStanding = 0;
+    errorCode = firstElement(list, &lastStanding);
+    if (errorCode != 0)
+    {
+        return errorCode; 
+    }
+    freeList(list);
+    free(list);
+    return lastStanding; //ошибки с "-", а номер >= 0, так что можем различать ошибку и ответ
+}
+
+bool test()
+{
+    return lastSurvivor(5, 2) == 2 && lastSurvivor(758, 43) == 24 && lastSurvivor(8, 1) == 7 && lastSurvivor(3, 7) == 2;
 }
 
 int main()
 {
+    if (!test())
+    {
+        printf("Tests failed!\n");
+        return -1;
+    }
     int scanResult = 0;
     int amountOfSoldiers = 0;
     while (!scanResult || amountOfSoldiers <= 0)

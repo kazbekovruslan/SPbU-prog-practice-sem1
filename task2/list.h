@@ -17,6 +17,6 @@ Error printList(List *list);
 
 bool isLength1(List *list);
 
-int firstElement(List *list);
+Error firstElement(List *list, int *lastStanding);
 
 Error freeList(List *list);
