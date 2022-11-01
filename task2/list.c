@@ -106,7 +106,7 @@ bool isLength1(List *list)
     return false;
 }
 
-int lastElement(List *list)
+int firstElement(List *list)
 {
     return list->head->number;
 }
