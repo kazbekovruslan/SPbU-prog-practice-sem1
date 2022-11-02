@@ -3,8 +3,6 @@
 typedef int Error;
 typedef int Value;
 
-typedef struct Node Node;
-
 typedef struct List List;
 
 List *listCreate();

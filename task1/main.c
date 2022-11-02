@@ -36,63 +36,63 @@ int main()
         }
         switch (function)
         {
-            case 1:
+        case 1:
+        {
+            scanResult = 0;
+            while (!scanResult)
             {
-                scanResult = 0;
-                while (!scanResult)
+                printf("Enter the value you want to add to the list: ");
+                scanResult = scanf("%d", &value);
+                if (!scanResult)
                 {
-                    printf("Enter the value you want to add to the list: ");
-                    scanResult = scanf("%d", &value);
-                    if (!scanResult)
-                    {
-                        printf("Incorrect input! Numbers required. Try again!\n");
-                        scanf("%*[^\n]");
-                    }
+                    printf("Incorrect input! Numbers required. Try again!\n");
+                    scanf("%*[^\n]");
                 }
-                int errorCode = addValue(list, value);
-                if (errorCode == -1)
-                {
-                    printf("Memory error!\n");
-                    return -1;
-                }
-                break;
             }
-            case 2:
+            int errorCode = addValue(list, value);
+            if (errorCode == -1)
             {
-                scanResult = 0;
-                while (!scanResult)
-                {
-                    printf("Enter the value you want to remove from the list: ");
-                    scanResult = scanf("%d", &value);
-                    if (!scanResult)
-                    {
-                        printf("Incorrect input! Numbers required. Try again!\n");
-                        scanf("%*[^\n]");
-                    }
-                }
-                int errorCode = removeValue(list, value);
-                if (errorCode == -1)
-                {
-                    printf("Memory error!\n");
-                    return -1;
-                }
-                if (errorCode == -3)
-                {
-                    printf("There is no such element!\n");
-                }
-                break;
+                printf("Memory error!\n");
+                return -1;
             }
-            case 3:
+            break;
+        }
+        case 2:
+        {
+            scanResult = 0;
+            while (!scanResult)
             {
-                printList(list);
-                break;
+                printf("Enter the value you want to remove from the list: ");
+                scanResult = scanf("%d", &value);
+                if (!scanResult)
+                {
+                    printf("Incorrect input! Numbers required. Try again!\n");
+                    scanf("%*[^\n]");
+                }
             }
-            case 0:
+            int errorCode = removeValue(list, value);
+            if (errorCode == -1)
             {
-                exitFlag = true;
-                printf("Bye!\n");
-                break;
+                printf("Memory error!\n");
+                return -1;
             }
+            if (errorCode == -3)
+            {
+                printf("There is no such element!\n");
+            }
+            break;
+        }
+        case 3:
+        {
+            printList(list);
+            break;
+        }
+        case 0:
+        {
+            exitFlag = true;
+            printf("Bye!\n");
+            break;
+        }
         }
     }
     freeList(list);
