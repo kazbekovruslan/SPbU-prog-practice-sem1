@@ -32,6 +32,10 @@ Error addNumber(List *list, int number)
     }
 
     Node *newNode = calloc(1, sizeof(Node));
+    if (newNode == NULL)
+    {
+        return -1;
+    }
     newNode->number = number;
 
     if (list->head == NULL)
@@ -92,7 +96,8 @@ Error printList(List *list)
         printf("%d ", currentNode->number);
         currentNode = currentNode->next;
     }
-    if (currentNode != NULL) printf("%d", currentNode->number);
+    if (currentNode != NULL)
+        printf("%d", currentNode->number);
     printf("\n");
     return 0;
 }
