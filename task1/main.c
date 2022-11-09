@@ -11,9 +11,8 @@ typedef enum
     OK = 0
 } Errors;
 
-int main()
+void printFunctions()
 {
-    printf("---DICTIONARY---\n");
     printf("Functions:\n");
     printf("0 - exit\n");
     printf("1 - add value to the dictionary by key\n");
@@ -21,19 +20,26 @@ int main()
     printf("3 - check value for being in the dictionary by key\n");
     printf("4 - delete key and its value\n");
     printf("5 - print tree in preorder\n");
+    printf("6 - print list of functions\n");
+}
+
+int main()
+{
+    printf("---DICTIONARY---\n");
+    printFunctions();
     Tree *root = NULL;
     bool exitFlag = false;
     while (!exitFlag)
     {
         int function = 0;
         int scanResult = 0;
-        while (!scanResult || !(function >= 0 && function <= 5))
+        while (!scanResult || !(function >= 0 && function <= 6))
         {
-            printf("\nEnter the number of the function (0 - 5): ");
+            printf("\nEnter the number of the function (0 - 6): ");
             scanResult = scanf("%d", &function);
             if (!scanResult || !(function >= 0 && function <= 5))
             {
-                printf("Incorrect input! Numbers 0 - 5 required. Try again!\n");
+                printf("Incorrect input! Numbers 0 - 6 required. Try again!\n");
                 scanf("%*[^\n]");
             }
         }
@@ -126,6 +132,11 @@ int main()
             printf("Dictionary (key: value): ");
             printTree(root);
             printf("\n");
+            break;
+        }
+        case 6:
+        {
+            printFunctions();
             break;
         }
         case 0:
