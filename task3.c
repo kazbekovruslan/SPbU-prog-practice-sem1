@@ -40,5 +40,6 @@ int main(void)
         }
         firstCharacter = secondCharacter;
     }
+    fclose(file);
     return 0;
 }
