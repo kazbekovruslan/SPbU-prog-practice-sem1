@@ -64,8 +64,7 @@ int main()
             printf("Enter the value you want to add: ");
             scanf("%s", value);
 
-            int errorCode = addValue(&root, value, key);
-            if (errorCode == MemoryAllocationError)
+            if (addValue(&root, value, key) == MemoryAllocationError)
             {
                 printf("Memory error!\n");
                 return -1;
