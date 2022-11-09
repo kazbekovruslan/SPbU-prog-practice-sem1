@@ -84,7 +84,12 @@ int main()
         }
         case 3:
         {
-            printList(list);
+            int errorCode = printList(list);
+            if (errorCode == -1)
+            {
+                printf("Memory error!\n");
+                return -1;
+            }
             break;
         }
         case 0:
