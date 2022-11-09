@@ -102,7 +102,7 @@ Error removeValue(List *list, Value value)
     {
         previousElement->next = currentElement->next;
     }
-    free(currentElement); 
+    free(currentElement);
     return 0;
 }
 
@@ -127,7 +127,7 @@ Error freeList(List *list)
 {
     if (list == NULL)
     {
-        return 0;
+        return -1;
     }
     Node *currentElement = list->head;
     Node *nextElement = NULL;
