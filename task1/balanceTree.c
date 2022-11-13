@@ -14,8 +14,9 @@ typedef enum
 
 typedef struct Tree
 {
-    int key;
+    char *key;
     char *value;
+    int balance;
     struct Tree *leftChild;
     struct Tree *rightChild;
 } Tree;
@@ -61,86 +62,194 @@ Tree **findNode(Tree **root, int key)
     }
 }
 
-// a
-Error addValue(Tree **root, char *value, int key)
+Tree *rotateLeft(Tree *node)
 {
-    if (*root == NULL)
+    Tree *nodeRightChild = node->rightChild;
+    Tree *rightLeftChild = nodeRightChild->leftChild;
+    nodeRightChild->leftChild = node;
+    node->rightChild = rightLeftChild;
+    if (nodeRightChild->balance == 0)
     {
-        *root = calloc(1, sizeof(Tree));
-        if (*root == NULL)
+        nodeRightChild->balance = 1;
+        node->balance = 0;
+    }
+    else
+    {
+        nodeRightChild->balance = 0;
+        node->balance = 0;
+    }
+    return nodeRightChild;
+}
+
+Tree *rotateRight(Tree *node)
+{
+    Tree *nodeLeftChild = node->leftChild;
+    Tree *rightLeftChild = nodeLeftChild->rightChild;
+    nodeLeftChild->rightChild = node;
+    node->leftChild = rightLeftChild;
+    if (nodeLeftChild->balance == 0)
+    {
+        nodeLeftChild->balance = 1;
+        node->balance = 0;
+    }
+    else
+    {
+        nodeLeftChild->balance = 0;
+        node->balance = 0;
+    }
+    return nodeLeftChild;
+}
+
+Tree *bigRotateLeft(Tree *node)
+{
+    node->rightChild = rotateRight(node->rightChild);
+    return rotateLeft(node);
+}
+
+Tree *bigRotateRight(Tree *node)
+{
+    node->leftChild = rotateLeft(node->leftChild);
+    return rotateRight(node);
+}
+
+Tree *balance(Tree *node)
+{
+    if (node->balance == 2)
+    {
+        if (node->rightChild->balance >= 0)
         {
-            return MemoryAllocationError;
+            return rotateLeft(node);
         }
-        (*root)->key = key;
-        (*root)->value = calloc(strlen(value) + 1, sizeof(char));
-        if ((*root)->value == NULL)
+        return bigRotateLeft(node);
+    }
+    if (node->balance == -2)
+    {
+        if (node->leftChild->balance <= 0)
         {
-            return MemoryAllocationError;
+            return rotateRight(node);
         }
-        strcpy((*root)->value, value);
+        return bigRotateRight(node);
+    }
+    return node;
+}
+
+Tree *addValue(Tree *node, char *key, char *value)
+{
+    if (node == NULL)
+    {
+        Tree *newNode = calloc(1, sizeof(Tree));
+        newNode->key = calloc(strlen(key) + 1, sizeof(char));
+        newNode->value = calloc(strlen(value) + 1, sizeof(char));
+        strcpy(newNode->key, key);
+        strcpy(newNode->value, value);
+        newNode->balance = 0;
+        return newNode;
     }
 
-    if (key < (*root)->key)
+    if (strcmp(key, node->key) < 0)
     {
-        addValue(&(*root)->leftChild, value, key);
+        node->leftChild = insert(node->leftChild, key, value);
+        --node->balance;
     }
-    else if (key > (*root)->key)
+    else if (strcmp(key, node->key) > 0)
     {
-        addValue(&(*root)->rightChild, value, key);
+        node->rightChild = insert(node->rightChild, key, value);
+        ++node->balance;
     }
-    else if (key == (*root)->key)
+    else
     {
-        free((*root)->value);
-        (*root)->value = calloc(strlen(value) + 1, sizeof(char));
-        if ((*root)->value == NULL)
-        {
-            return MemoryAllocationError;
-        }
-        strcpy((*root)->value, value);
+        free(node->value);
+        node->value = calloc(strlen(value) + 1, sizeof(char));
+        strcpy(node->value, value);
     }
-    return OK;
+
+    return balance(node);
 }
+
+Tree *deleteValue(Tree *node, char *key)
+{
+}
+
+// a
+// Error addValue(Tree **root, char *value, int key)
+// {
+//     if (*root == NULL)
+//     {
+//         *root = calloc(1, sizeof(Tree));
+//         if (*root == NULL)
+//         {
+//             return MemoryAllocationError;
+//         }
+//         (*root)->key = key;
+//         (*root)->value = calloc(strlen(value) + 1, sizeof(char));
+//         if ((*root)->value == NULL)
+//         {
+//             return MemoryAllocationError;
+//         }
+//         strcpy((*root)->value, value);
+//     }
+
+//     if (key < (*root)->key)
+//     {
+//         addValue(&(*root)->leftChild, value, key);
+//     }
+//     else if (key > (*root)->key)
+//     {
+//         addValue(&(*root)->rightChild, value, key);
+//     }
+//     else if (key == (*root)->key)
+//     {
+//         free((*root)->value);
+//         (*root)->value = calloc(strlen(value) + 1, sizeof(char));
+//         if ((*root)->value == NULL)
+//         {
+//             return MemoryAllocationError;
+//         }
+//         strcpy((*root)->value, value);
+//     }
+//     return OK;
+// }
 
 // d
-void deleteValue(Tree **root, int key)
-{
-    if (*root == NULL)
-    {
-        return;
-    }
-    Tree **deletedNode = findNode(&(*root), key);
-    if (*deletedNode != NULL)
-    {
-        if ((*deletedNode)->leftChild == NULL) //если слева нет ребенка - просто берем правого
-        {
-            Tree *freedNode = *deletedNode;
-            *deletedNode = (*deletedNode)->rightChild;
-            free(freedNode->value);
-            free(freedNode);
-        }
-        else //если слева есть ребенок - ищем максимального потомка слева и ставим на место удаляемого
-        {
-            Tree *freedNode = *deletedNode;
-            Tree *deletedNodeRightChild = (*deletedNode)->rightChild;
-            Tree *deletedNodeLeftChild = (*deletedNode)->leftChild;
-            Tree *previousNode = *deletedNode;
-            *deletedNode = (*deletedNode)->leftChild;
-            while ((*deletedNode)->rightChild != NULL)
-            {
-                previousNode = *deletedNode;
-                *deletedNode = (*deletedNode)->rightChild;
-            }
-            previousNode->rightChild = NULL;
-            (*deletedNode)->rightChild = deletedNodeRightChild;
-            if ((*deletedNode) != deletedNodeLeftChild)
-            {
-                (*deletedNode)->leftChild = deletedNodeLeftChild;
-            }
-            free(freedNode->value);
-            free(freedNode);
-        }
-    }
-}
+// void deleteValue(Tree **root, int key)
+// {
+//     if (*root == NULL)
+//     {
+//         return;
+//     }
+//     Tree **deletedNode = findNode(&(*root), key);
+//     if (*deletedNode != NULL)
+//     {
+//         if ((*deletedNode)->leftChild == NULL) //если слева нет ребенка - просто берем правого
+//         {
+//             Tree *freedNode = *deletedNode;
+//             *deletedNode = (*deletedNode)->rightChild;
+//             free(freedNode->value);
+//             free(freedNode);
+//         }
+//         else //если слева есть ребенок - ищем максимального потомка слева и ставим на место удаляемого
+//         {
+//             Tree *freedNode = *deletedNode;
+//             Tree *deletedNodeRightChild = (*deletedNode)->rightChild;
+//             Tree *deletedNodeLeftChild = (*deletedNode)->leftChild;
+//             Tree *previousNode = *deletedNode;
+//             *deletedNode = (*deletedNode)->leftChild;
+//             while ((*deletedNode)->rightChild != NULL)
+//             {
+//                 previousNode = *deletedNode;
+//                 *deletedNode = (*deletedNode)->rightChild;
+//             }
+//             previousNode->rightChild = NULL;
+//             (*deletedNode)->rightChild = deletedNodeRightChild;
+//             if ((*deletedNode) != deletedNodeLeftChild)
+//             {
+//                 (*deletedNode)->leftChild = deletedNodeLeftChild;
+//             }
+//             free(freedNode->value);
+//             free(freedNode);
+//         }
+//     }
+// }
 
 void printTree(Tree *root)
 {
