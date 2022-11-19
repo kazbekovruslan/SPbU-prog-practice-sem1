@@ -3,4 +3,4 @@ project(task2)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(task2 main.c quickSort.c)
+add_executable(task2 main.c ../quickSort/quickSort.c)
