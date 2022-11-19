@@ -22,23 +22,24 @@ typedef struct Tree
     struct Tree *rightChild;
 } Tree;
 
-char *findValueByKey(Tree *root, int key)
+char *findValueByKey(Tree *node, char *key)
 {
-    if (root == NULL)
+    if (node == NULL)
     {
         return NULL;
     }
-    if (key < root->key)
+
+    if (strcmp(key, node->key) < 0)
     {
-        findValueByKey(root->leftChild, key);
+        findValueByKey(node->leftChild, key);
     }
-    else if (key > root->key)
+    else if (strcmp(key, node->key) > 0)
     {
-        findValueByKey(root->rightChild, key);
+        findValueByKey(node->rightChild, key);
     }
     else
     {
-        return root->value;
+        return node->value;
     }
 }
 
