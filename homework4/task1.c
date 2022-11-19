@@ -3,7 +3,6 @@
 
 #define binaryNumberLength 32
 
-
 void printArray(unsigned char *array, int arrayLength)
 {
     for (int i = 0; i < arrayLength; ++i)
@@ -33,7 +32,7 @@ int binaryToDecimalConvert(unsigned char *binaryNumber)
         power *= 2;
     }
     return decimalNumber;
-}   
+}
 
 void binarySum(unsigned char *sumResult, unsigned char *firstBinaryNumber, unsigned char *secondBinaryNumber)
 {
@@ -47,15 +46,14 @@ void binarySum(unsigned char *sumResult, unsigned char *firstBinaryNumber, unsig
     }
 }
 
-void main(void)
+void main()
 {
     setlocale(LC_ALL, "");
 
     int firstNumber = 0;
     int secondNumber = 0;
-    unsigned char firstBinaryNumber[binaryNumberLength] = { 0 };
-    unsigned char secondBinaryNumber[binaryNumberLength] = { 0 };
-
+    unsigned char firstBinaryNumber[binaryNumberLength] = {0};
+    unsigned char secondBinaryNumber[binaryNumberLength] = {0};
 
     int scanResult = 0;
     while (scanResult < 2)
@@ -69,7 +67,6 @@ void main(void)
         }
     }
 
-
     decimalToBinaryConvert(firstBinaryNumber, firstNumber);
     printf("Двочиное представление первого числа: ");
     printArray(firstBinaryNumber, binaryNumberLength);
@@ -78,16 +75,13 @@ void main(void)
     printf("Двоичное представление второго числа: ");
     printArray(secondBinaryNumber, binaryNumberLength);
 
-
     printf("                                      --------------------------------\n");
 
-    unsigned char binarySumResult[binaryNumberLength] = { 0 };
-
+    unsigned char binarySumResult[binaryNumberLength] = {0};
 
     binarySum(binarySumResult, firstBinaryNumber, secondBinaryNumber);
     printf("Двоичная сумма ваших чисел:           ");
     printArray(binarySumResult, binaryNumberLength);
 
-    printf("Десятичная сумма ваших чисел: %d", binaryToDecimalConvert(binarySumResult)); 
-
+    printf("Десятичная сумма ваших чисел: %d", binaryToDecimalConvert(binarySumResult));
 }
