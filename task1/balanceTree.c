@@ -271,22 +271,3 @@ void freeTree(Tree **root)
     free((*root)->value);
     free(*root);
 }
-
-int main()
-{
-    Tree *root = NULL;
-    Error errorCode = OK;
-    bool isClimb = true;
-    root = insert(root, "2", "2", &isClimb, &errorCode);
-    isClimb = true;
-    root = insert(root, "1", "1", &isClimb, &errorCode);
-    isClimb = true;
-    root = insert(root, "4", "4", &isClimb, &errorCode);
-    isClimb = true;
-    root = insert(root, "3", "3", &isClimb, &errorCode);
-    isClimb = true;
-    root = insert(root, "5", "5", &isClimb, &errorCode);
-    isClimb = true;
-    root = insert(root, "6", "6", &isClimb, &errorCode);
-    return 0;
-}
