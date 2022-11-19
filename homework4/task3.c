@@ -103,7 +103,6 @@ void searchNameByPhone(FILE *file, char *phoneForSearch)
 
 int main()
 {
-
     bool flagIn = true;
 
     char name[nameSize] = "";
@@ -149,7 +148,6 @@ int main()
             gets(name);
             printf("Enter the phone (+xxxxxxxxxxx format): ");
             scanf("%s", &phone);
-            printf("Data received!\n\n");
             break;
         }
         case 2:
