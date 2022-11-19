@@ -2,16 +2,15 @@
 #include <stdlib.h>
 #include "qsort.h"
 
-
-int count(int *array, int arrayLength)
+int mostFrequent(int *array, int arrayLength)
 {
-    quickSort(array, 0, arrayLength);
+    quickSort(array, 0, arrayLength - 1);
     int mostFrequentNumber = array[0];
     int counter = 1;
     int maxCounter = 1;
     for (int i = 0; i < arrayLength - 1; ++i)
     {
-        if (array[i] == array[i+1])
+        if (array[i] == array[i + 1])
         {
             ++counter;
             if (counter > maxCounter)
@@ -29,9 +28,6 @@ int count(int *array, int arrayLength)
     return mostFrequentNumber;
 }
 
-
-
-
 int main()
 {
     FILE *file = fopen("input.txt", "r");
@@ -47,8 +43,8 @@ int main()
     {
         ++sizeOfArray;
     }
-    fseek(file, 0, SEEK_SET); 
-    
+    fseek(file, 0, SEEK_SET);
+
     if (sizeOfArray == 0)
     {
         printf("File is empty!");
@@ -71,7 +67,7 @@ int main()
     }
     fclose(file);
 
-    printf("\nThe most frequent number in the array is %d", count(array, sizeOfArray));
+    printf("\nThe most frequent number in the array is %d", mostFrequent(array, sizeOfArray));
     free(array);
     return 0;
 }
