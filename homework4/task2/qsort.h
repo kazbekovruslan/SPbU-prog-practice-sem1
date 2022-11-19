@@ -1,6 +1,4 @@
 #pragma once
- 
-void swap(int *, int *);
-int partition(int *, int , int);
-void insertSort(int *, int , int);
-void quickSort(int *, int , int);
+
+//сортировка quick sort
+void quickSort(int *array, int lowIndex, int highIndex);
