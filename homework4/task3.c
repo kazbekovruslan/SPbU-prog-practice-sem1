@@ -3,11 +3,9 @@
 #include <stdbool.h>
 #include <string.h>
 
-
 #define bookSize 100
 #define nameSize 100
 #define phoneSize 20
-
 
 void outputBook(FILE *file)
 {
@@ -49,7 +47,7 @@ void searchPhoneByName(FILE *file, char *nameForSearch)
             {
                 if (buffer[i] != '\n')
                 {
-                    phone[i-plusIndex] = buffer[i];
+                    phone[i - plusIndex] = buffer[i];
                 }
                 else
                 {
@@ -61,7 +59,6 @@ void searchPhoneByName(FILE *file, char *nameForSearch)
         }
     }
 }
-
 
 void searchNameByPhone(FILE *file, char *phoneForSearch)
 {
@@ -88,7 +85,7 @@ void searchNameByPhone(FILE *file, char *phoneForSearch)
         {
             if (buffer[i] != '\n')
             {
-                phone[i-plusIndex] = buffer[i];
+                phone[i - plusIndex] = buffer[i];
             }
             else
             {
@@ -103,7 +100,6 @@ void searchNameByPhone(FILE *file, char *phoneForSearch)
         }
     }
 }
-
 
 int main()
 {
@@ -138,107 +134,103 @@ int main()
             }
         }
 
-        
-
         switch (numberOfFunction)
         {
-            case 0:
+        case 0:
+        {
+            printf("Goodbye!\n");
+            flagIn = false;
+            break;
+        }
+        case 1:
+        {
+            printf("Enter the name: ");
+            getchar();
+            gets(name);
+            printf("Enter the phone (+xxxxxxxxxxx format): ");
+            scanf("%s", &phone);
+            printf("Data received!\n\n");
+            break;
+        }
+        case 2:
+        {
+            FILE *file = fopen("phonebook.txt", "r");
+            if (file == NULL)
             {
-                printf("Goodbye!\n");
-                flagIn = false;
-                break;
+                printf("File not found!");
+                return 1;
             }
-            case 1:
+
+            char buffer[nameSize + phoneSize] = "";
+            fgets(buffer, nameSize + phoneSize, file);
+            if (strlen(buffer) > 0)
             {
-                printf("Enter the name: ");
-                getchar();
-                gets(name);
-                printf("Enter the phone (+xxxxxxxxxxx format): ");
-                scanf("%s", &phone);
-                printf("Data received!\n\n");
-                break;
+                fseek(file, 0, SEEK_SET);
+                outputBook(file);
             }
-            case 2: 
+            else
             {
-                FILE *file = fopen("phonebook.txt", "r");
-                if (file == NULL)
-                {
-                    printf("File not found!");
-                    return 1;
-                }
-
-                char buffer[nameSize + phoneSize] = "";
-                fgets(buffer, nameSize + phoneSize, file);
-                if (strlen(buffer) > 0)
-                {
-                    fseek(file, 0, SEEK_SET); 
-                    outputBook(file);
-                }
-                else
-                {
-                    printf("Phonebook is empty!\n\n");
-                }
-                
-                break;
+                printf("Phonebook is empty!\n\n");
             }
-            case 3: 
+
+            break;
+        }
+        case 3:
+        {
+            FILE *file = fopen("phonebook.txt", "r");
+            if (file == NULL)
             {
-                FILE *file = fopen("phonebook.txt", "r");
-                if (file == NULL)
-                {
-                    printf("File not found!");
-                    return 1;
-                }
-
-                char nameForSearch[nameSize] = "";
-                printf("Enter the name: ");
-                getchar();
-                gets(nameForSearch);
-
-
-                searchPhoneByName(file, nameForSearch);
-                
-                printf("\n\n");
-                break;
+                printf("File not found!");
+                return 1;
             }
-            case 4:
+
+            char nameForSearch[nameSize] = "";
+            printf("Enter the name: ");
+            getchar();
+            gets(nameForSearch);
+
+            searchPhoneByName(file, nameForSearch);
+
+            printf("\n\n");
+            break;
+        }
+        case 4:
+        {
+            FILE *file = fopen("phonebook.txt", "r");
+            if (file == NULL)
             {
-                FILE *file = fopen("phonebook.txt", "r");
-                if (file == NULL)
-                {
-                    printf("File not found!");
-                    return 1;
-                }
-
-                char phoneForSearch[phoneSize] = "";
-                printf("Enter the phone: ");
-                getchar();
-                gets(phoneForSearch);
-
-
-                searchNameByPhone(file, phoneForSearch);
-                
-                printf("\n\n");
-                break;
+                printf("File not found!");
+                return 1;
             }
-            case 5:
+
+            char phoneForSearch[phoneSize] = "";
+            printf("Enter the phone: ");
+            getchar();
+            gets(phoneForSearch);
+
+            searchNameByPhone(file, phoneForSearch);
+
+            printf("\n\n");
+            break;
+        }
+        case 5:
+        {
+            FILE *file = fopen("phonebook.txt", "a+");
+            if (file == NULL)
             {
-                FILE *file = fopen("phonebook.txt", "a+");
-                if (file == NULL)
-                {
-                    printf("File not found!");
-                    return 1;
-                }
-                fprintf(file, "%s %s\n", name, phone);
-                printf("Your data is recorded:\n%s %s\n", name, phone);
-                fclose(file);
-                break;
+                printf("File not found!");
+                return 1;
             }
-            default: 
-            {
-                printf("Incorrect number. Try numbers 0 - 5\n");
-                break;
-            }
+            fprintf(file, "%s %s\n", name, phone);
+            printf("Your data is recorded:\n%s %s\n", name, phone);
+            fclose(file);
+            break;
+        }
+        default:
+        {
+            printf("Incorrect number. Try numbers 0 - 5\n");
+            break;
+        }
         }
     }
     return 0;
