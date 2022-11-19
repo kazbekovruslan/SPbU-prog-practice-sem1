@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <locale.h>
 
 #define binaryNumberLength 32
@@ -46,8 +47,35 @@ void binarySum(unsigned char *sumResult, unsigned char *firstBinaryNumber, unsig
     }
 }
 
+bool test()
+{
+    int firstNumbers[5] = {1, 1000, 54, 2147483647, -53};
+    int secondNumbers[5] = {-1, 3, -53, -2147483647, 54};
+    unsigned char firstBinaryNumber[binaryNumberLength] = {0};
+    unsigned char secondBinaryNumber[binaryNumberLength] = {0};
+    int firstNumber = 0;
+    int secondNumber = 0;
+    unsigned char binarySumResult[binaryNumberLength] = {0};
+    for (int i = 0; i < 5; ++i)
+    {
+        decimalToBinaryConvert(firstBinaryNumber, firstNumbers[i]);
+        decimalToBinaryConvert(secondBinaryNumber, secondNumbers[i]);
+        binarySum(binarySumResult, firstBinaryNumber, secondBinaryNumber);
+        if (binaryToDecimalConvert(binarySumResult) != firstNumbers[i] + secondNumbers[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 void main()
 {
+    if (!test())
+    {
+        printf("TEST FAILED!\n");
+        return;
+    }
     setlocale(LC_ALL, "");
 
     int firstNumber = 0;
