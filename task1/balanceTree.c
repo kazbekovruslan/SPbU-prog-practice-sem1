@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "balanceTree.h"
 
@@ -178,38 +179,75 @@ Tree *balance(Tree *node)
     return node;
 }
 
-// Tree *addValue(Tree *node, char *key, char *value)
-// {
-//     if (node == NULL)
-//     {
-//         Tree *newNode = calloc(1, sizeof(Tree));
-//         newNode->key = calloc(strlen(key) + 1, sizeof(char));
-//         newNode->value = calloc(strlen(value) + 1, sizeof(char));
-//         strcpy(newNode->key, key);
-//         strcpy(newNode->value, value);
-//         newNode->balance = 0;
-//         return newNode;
-//     }
+Tree *createNode(char *key, char *value)
+{
+    Tree *newNode = calloc(1, sizeof(Tree));
+    newNode->key = calloc(strlen(key) + 1, sizeof(char));
+    if (newNode->key == NULL)
+    {
+        return NULL;
+    }
+    newNode->value = calloc(strlen(value) + 1, sizeof(char));
+    if (newNode->value == NULL)
+    {
+        return NULL;
+    }
+    strcpy(newNode->key, key);
+    strcpy(newNode->value, value);
+    newNode->balance = 0;
+    return newNode;
+}
 
-//     if (strcmp(key, node->key) < 0)
-//     {
-//         node->leftChild = insert(node->leftChild, key, value);
-//         --node->balance;
-//     }
-//     else if (strcmp(key, node->key) > 0)
-//     {
-//         node->rightChild = insert(node->rightChild, key, value);
-//         ++node->balance;
-//     }
-//     else
-//     {
-//         free(node->value);
-//         node->value = calloc(strlen(value) + 1, sizeof(char));
-//         strcpy(node->value, value);
-//     }
+Tree *insert(Tree *node, char *key, char *value, bool *isClimb, Error *errorCode)
+{
+    if (node == NULL)
+    {
+        Tree *newNode = createNode(key, value);
+        if (newNode == NULL)
+        {
+            *errorCode = MemoryAllocationError;
+            *isClimb = false;
+        }
+        return newNode;
+    }
 
-//     return balance(node);
-// }
+    int balanceDifference = 0;
+    if (strcmp(key, node->key) == 0)
+    {
+        free(node->value);
+        node->value = calloc(strlen(value) + 1, sizeof(char));
+        if (node->value == NULL)
+        {
+            *errorCode = MemoryAllocationError;
+            *isClimb = false;
+        }
+        strcpy(node->value, value);
+        return node;
+    }
+    else if (strcmp(key, node->key) < 0)
+    {
+        node->leftChild = insert(node->leftChild, key, value, isClimb, errorCode);
+        --balanceDifference;
+    }
+    else
+    {
+        node->rightChild = insert(node->rightChild, key, value, isClimb, errorCode);
+        ++balanceDifference;
+    }
+
+    if (!*isClimb)
+    {
+        return node;
+    }
+    node->balance += balanceDifference;
+
+    if (node->balance == 0 || node->balance == 2 || node->balance == -2)
+    {
+        *isClimb = false;
+    }
+
+    return balance(node);
+}
 
 void printTree(Tree *root)
 {
@@ -232,4 +270,23 @@ void freeTree(Tree **root)
     freeTree(&(*root)->rightChild);
     free((*root)->value);
     free(*root);
+}
+
+int main()
+{
+    Tree *root = NULL;
+    Error errorCode = OK;
+    bool isClimb = true;
+    root = insert(root, "2", "2", &isClimb, &errorCode);
+    isClimb = true;
+    root = insert(root, "1", "1", &isClimb, &errorCode);
+    isClimb = true;
+    root = insert(root, "4", "4", &isClimb, &errorCode);
+    isClimb = true;
+    root = insert(root, "3", "3", &isClimb, &errorCode);
+    isClimb = true;
+    root = insert(root, "5", "5", &isClimb, &errorCode);
+    isClimb = true;
+    root = insert(root, "6", "6", &isClimb, &errorCode);
+    return 0;
 }
