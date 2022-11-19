@@ -59,6 +59,7 @@ void main()
     else
     {
         printf("TEST FAILED!\n");
+        return;
     }
     int arrayLength = -1;
     int amountOfNumbers = -1;

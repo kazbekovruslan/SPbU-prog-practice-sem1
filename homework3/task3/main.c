@@ -61,6 +61,7 @@ void main()
     else
     {
         printf("TEST FAILED!\n");
+        return;
     }
     int array[arraySize] = {0};
 
