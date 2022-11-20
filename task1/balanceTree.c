@@ -43,26 +43,6 @@ char *findValueByKey(Tree *node, char *key)
     }
 }
 
-Tree **findNode(Tree **root, int key)
-{
-    if (*root == NULL)
-    {
-        return;
-    }
-    if (key < (*root)->key)
-    {
-        root = findNode(&(*root)->leftChild, key);
-    }
-    else if (key > (*root)->key)
-    {
-        root = findNode(&(*root)->rightChild, key);
-    }
-    else
-    {
-        return root;
-    }
-}
-
 Tree *rotateLeft(Tree *node)
 {
     Tree *deletedNodeRightChild = node->rightChild;
@@ -250,7 +230,13 @@ Tree *insert(Tree *node, char *key, char *value, bool *isClimb, Error *errorCode
     return balance(node);
 }
 
-Tree *deleteValue(Tree *node, char *key, bool *isClimb)
+Tree *addValue(Tree *root, char *key, char *value, Error *errorCode)
+{
+    bool isClimb = true;
+    return insert(root, key, value, &isClimb, errorCode);
+}
+
+Tree *remove(Tree *node, char *key, bool *isClimb)
 {
     if (node == NULL)
     {
@@ -295,12 +281,12 @@ Tree *deleteValue(Tree *node, char *key, bool *isClimb)
     }
     else if (strcmp(key, node->key) < 0)
     {
-        node->leftChild = deleteValue(node->leftChild, key, isClimb);
+        node->leftChild = remove(node->leftChild, key, isClimb);
         ++balanceDifference;
     }
     else
     {
-        node->rightChild = deleteValue(node->rightChild, key, isClimb);
+        node->rightChild = remove(node->rightChild, key, isClimb);
         --balanceDifference;
     }
 
@@ -316,6 +302,12 @@ Tree *deleteValue(Tree *node, char *key, bool *isClimb)
     }
 
     return balance(node);
+}
+
+Tree *deleteValue(Tree *root, char *key)
+{
+    bool isClimb = true;
+    return remove(root, key, &isClimb);
 }
 
 void printTree(Tree *root)
