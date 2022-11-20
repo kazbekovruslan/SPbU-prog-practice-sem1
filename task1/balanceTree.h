@@ -4,13 +4,18 @@ typedef int Error;
 
 typedef struct Tree Tree;
 
-Tree *insert(Tree *node, char *key, char *value, bool *isClimb, Error *errorCode);
-
-// get value by key. If there is no such key, it returns NULL
+// возвращает значение по ключу. Если нет такого ключа - возвращает NULL
 char *findValueByKey(Tree *node, char *key);
 
-// print tree with preorder
+// добавляет значение по ключу. Если уже есть такой ключ - меняет значение
+// принимает на вход переменную errorCode, в которой хранится код ошибки (OK - 0, MemoryAllocationError - -1)
+Tree *addValue(Tree *root, char *key, char *value, Error *errorCode);
+
+// удаляет значение по ключу. Если нет такого ключа - ничего не делает
+Tree *deleteValue(Tree *root, char *key);
+
+// выводит дерево с обходом в глубину
 void printTree(Tree *root);
 
-// free all tree
-void freeTree(Tree **root);
+// очищает память под дерево
+void freeTree(Tree *root);
