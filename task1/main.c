@@ -5,6 +5,8 @@
 
 #define maxLength
 
+typedef int Error;
+
 typedef enum
 {
     MemoryAllocationError = -1,
@@ -45,26 +47,19 @@ int main()
         }
 
         char value[maxLength] = {0};
-        int key = 0;
+        char key[maxLength] = {0};
         switch (function)
         {
         case 1: //добавить значение по заданному ключу в словарь
         {
-            scanResult = 0;
-            while (!scanResult)
-            {
-                printf("Enter the key for the value you want to add to the dictionary: ");
-                scanResult = scanf("%d", &key);
-                if (!scanResult)
-                {
-                    printf("Incorrect input! Number required. Try again!\n");
-                    scanf("%*[^\n]");
-                }
-            }
+            printf("Enter the key for the value you want to add to the dictionary: ");
+            scanf("%s", key);
             printf("Enter the value you want to add: ");
             scanf("%s", value);
 
-            if (addValue(&root, value, key) == MemoryAllocationError)
+            Error errorCode = OK;
+            addValue(root, key, value, &errorCode);
+            if (errorCode == MemoryAllocationError)
             {
                 printf("Memory error!\n");
                 return -1;
@@ -74,33 +69,15 @@ int main()
         }
         case 2: //получить значение по заданному ключу из словаря
         {
-            scanResult = 0;
-            while (!scanResult)
-            {
-                printf("Enter the key for the value you want to get from the dictionary: ");
-                scanResult = scanf("%d", &key);
-                if (!scanResult)
-                {
-                    printf("Incorrect input! Number required. Try again!\n");
-                    scanf("%*[^\n]");
-                }
-            }
+            printf("Enter the key for the value you want to get from the dictionary: ");
+            scanf("%s", key);
             printf("Value for your key: %s\n", findValueByKey(root, key));
             break;
         }
         case 3: //проверить наличие заданного ключа в словаре
         {
-            scanResult = 0;
-            while (!scanResult)
-            {
-                printf("Enter the key for the value you want to check for being in the dictionary: ");
-                scanResult = scanf("%d", &key);
-                if (!scanResult)
-                {
-                    printf("Incorrect input! Number required. Try again!\n");
-                    scanf("%*[^\n]");
-                }
-            }
+            printf("Enter the key for the value you want to check for being in the dictionary: ");
+            scanf("%s", key);
             if (findValueByKey(root, key) != NULL)
             {
                 printf("Value is in the dictionary!\n");
@@ -111,18 +88,9 @@ int main()
         }
         case 4: //удалить заданный ключ и связанное с ним значение из словаря
         {
-            scanResult = 0;
-            while (!scanResult)
-            {
-                printf("Enter the key for the value you want to delete from the dictionary: ");
-                scanResult = scanf("%d", &key);
-                if (!scanResult)
-                {
-                    printf("Incorrect input! Number required. Try again!\n");
-                    scanf("%*[^\n]");
-                }
-            }
-            deleteValue(&root, key);
+            printf("Enter the key for the value you want to delete from the dictionary: ");
+            scanf("%s", key);
+            deleteValue(root, key);
             printf("Value deleted successfully!\n");
             break;
         }
@@ -146,6 +114,6 @@ int main()
         }
         }
     }
-    freeTree(&root);
+    freeTree(root);
     return 0;
 }
