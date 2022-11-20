@@ -270,7 +270,7 @@ Tree *deleteValue(Tree *node, char *key, bool *isClimb)
             free(freedNode);
         }
         else //если слева есть ребенок - ищем максимального потомка слева и ставим на место удаляемого
-        {    //
+        {    //тут плохо с балансом
             Tree *freedNode = node;
             Tree *deletedNodeRightChild = node->rightChild;
             Tree *deletedNodeLeftChild = node->leftChild;
@@ -310,7 +310,7 @@ Tree *deleteValue(Tree *node, char *key, bool *isClimb)
     }
     node->balance += balanceDifference;
 
-    if (balance != 0)
+    if (balance != 0) // 0 - высота поддерева не изменилась, не 0 - изменилась
     {
         *isClimb = false;
     }
