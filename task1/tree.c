@@ -130,7 +130,7 @@ void deleteValue(Tree **root, int key)
                 previousNode = *deletedNode;
                 *deletedNode = (*deletedNode)->rightChild;
             }
-            previousNode->rightChild = NULL;
+            previousNode->rightChild = (*deletedNode)->leftChild;
             (*deletedNode)->rightChild = deletedNodeRightChild;
             if ((*deletedNode) != deletedNodeLeftChild)
             {
