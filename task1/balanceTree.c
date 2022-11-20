@@ -261,14 +261,15 @@ void printTree(Tree *root)
     printTree(root->rightChild);
 }
 
-void freeTree(Tree **root)
+void freeTree(Tree *root)
 {
-    if (*root == NULL)
+    if (root == NULL)
     {
         return;
     }
-    freeTree(&(*root)->leftChild);
-    freeTree(&(*root)->rightChild);
-    free((*root)->value);
-    free(*root);
+    freeTree(root->leftChild);
+    freeTree(root->rightChild);
+    free(root->value);
+    free(root->key);
+    free(root);
 }
