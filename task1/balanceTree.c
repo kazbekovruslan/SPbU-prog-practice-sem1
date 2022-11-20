@@ -281,7 +281,7 @@ Tree *deleteValue(Tree *node, char *key, bool *isClimb)
                 previousNode = node;
                 node = node->rightChild;
             }
-            previousNode->rightChild = NULL;
+            previousNode->rightChild = node->leftChild;
             node->rightChild = deletedNodeRightChild;
             if (node != deletedNodeLeftChild)
             {
