@@ -200,9 +200,9 @@ Tree *insert(Tree *node, char *key, char *value, bool *isClimb, Error *errorCode
         if (node->value == NULL)
         {
             *errorCode = MemoryAllocationError;
-            *isClimb = false;
         }
         strcpy(node->value, value);
+        *isClimb = false;
         return node;
     }
     else if (strcmp(key, node->key) < 0)
@@ -236,16 +236,28 @@ Tree *addValue(Tree *root, char *key, char *value, Error *errorCode)
     return insert(root, key, value, &isClimb, errorCode);
 }
 
-Tree *remove(Tree *node, char *key, bool *isClimb)
+Tree *findLeftBiggest(Tree *node)
+{
+    Tree *leftBiggestChild = node->leftChild;
+    Tree *previousNode = NULL;
+    while (leftBiggestChild->rightChild != NULL)
+    {
+        previousNode = leftBiggestChild;
+        leftBiggestChild = leftBiggestChild->rightChild;
+    }
+    return leftBiggestChild;
+}
+
+Tree *deletePIZDEC(Tree *node, char *key, bool *isClimb)
 {
     if (node == NULL)
     {
         *isClimb = false;
-        return NULL; //ПРОВЕРИТЬ
+        return NULL;
     }
 
     int balanceDifference = 0;
-    if (strcmp(key, node->key) == 0) // ЧЕ С БАЛАНСОМ
+    if (strcmp(key, node->key) == 0)
     {
         if (node->leftChild == NULL) //если слева нет ребенка - просто берем правого
         {                            //тут все норм с балансом, ничего не меняем (просто двигаем правую ветку на один вверх)
@@ -254,39 +266,25 @@ Tree *remove(Tree *node, char *key, bool *isClimb)
             free(freedNode->value);
             free(freedNode->key);
             free(freedNode);
+            return node;
         }
         else //если слева есть ребенок - ищем максимального потомка слева и ставим на место удаляемого
-        {    //тут плохо с балансом
-            Tree *freedNode = node;
-            Tree *deletedNodeRightChild = node->rightChild;
-            Tree *deletedNodeLeftChild = node->leftChild;
-            Tree *previousNode = node;
-            node = node->leftChild;
-            while (node->rightChild != NULL)
-            {
-                previousNode = node;
-                node = node->rightChild;
-            }
-            previousNode->rightChild = node->leftChild;
-            node->rightChild = deletedNodeRightChild;
-            if (node != deletedNodeLeftChild)
-            {
-                node->leftChild = deletedNodeLeftChild;
-            }
-            free(freedNode->value);
-            free(freedNode->key);
-            free(freedNode);
+        {
+            Tree *nodeLeftBiggestChild = findLeftBiggest(node);
+            strcpy(node->key, nodeLeftBiggestChild->key);
+            strcpy(node->value, nodeLeftBiggestChild->value);
+            node->leftChild = deletePIZDEC(node->leftChild, nodeLeftBiggestChild->key, isClimb);
+            ++balanceDifference;
         }
-        return balance(node);
     }
     else if (strcmp(key, node->key) < 0)
     {
-        node->leftChild = remove(node->leftChild, key, isClimb);
+        node->leftChild = deletePIZDEC(node->leftChild, key, isClimb);
         ++balanceDifference;
     }
     else
     {
-        node->rightChild = remove(node->rightChild, key, isClimb);
+        node->rightChild = deletePIZDEC(node->rightChild, key, isClimb);
         --balanceDifference;
     }
 
@@ -296,7 +294,7 @@ Tree *remove(Tree *node, char *key, bool *isClimb)
     }
     node->balance += balanceDifference;
 
-    if (balance != 0) // 0 - высота поддерева не изменилась, не 0 - изменилась
+    if (node->balance != 0) // 0 - высота поддерева не изменилась, не 0 - изменилась
     {
         *isClimb = false;
     }
@@ -307,7 +305,7 @@ Tree *remove(Tree *node, char *key, bool *isClimb)
 Tree *deleteValue(Tree *root, char *key)
 {
     bool isClimb = true;
-    return remove(root, key, &isClimb);
+    return deletePIZDEC(root, key, &isClimb);
 }
 
 void printTree(Tree *root)
@@ -316,7 +314,7 @@ void printTree(Tree *root)
     {
         return;
     }
-    printf("%d: %s | ", root->key, root->value);
+    printf("%s: %s %d| ", root->key, root->value, root->balance);
     printTree(root->leftChild);
     printTree(root->rightChild);
 }
