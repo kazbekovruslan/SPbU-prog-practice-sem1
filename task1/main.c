@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "balanceTree.h"
 
-#define maxLength
+#define maxLength 256
 
 typedef int Error;
 
@@ -31,6 +31,8 @@ int main()
     printFunctions();
     Tree *root = NULL;
     bool exitFlag = false;
+    char value[maxLength] = {0};
+    char key[maxLength] = {0};
     while (!exitFlag)
     {
         int function = 0;
@@ -46,8 +48,6 @@ int main()
             }
         }
 
-        char value[maxLength] = {0};
-        char key[maxLength] = {0};
         switch (function)
         {
         case 1: //добавить значение по заданному ключу в словарь
@@ -58,7 +58,7 @@ int main()
             scanf("%s", value);
 
             Error errorCode = OK;
-            addValue(root, key, value, &errorCode);
+            root = addValue(root, key, value, &errorCode);
             if (errorCode == MemoryAllocationError)
             {
                 printf("Memory error!\n");
@@ -90,7 +90,7 @@ int main()
         {
             printf("Enter the key for the value you want to delete from the dictionary: ");
             scanf("%s", key);
-            deleteValue(root, key);
+            root = deleteValue(root, key);
             printf("Value deleted successfully!\n");
             break;
         }
