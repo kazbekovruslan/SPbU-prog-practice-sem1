@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "tree.h"
 
-#define maxLength
+#define maxLength 256
 
 typedef enum
 {
@@ -29,6 +29,8 @@ int main()
     printFunctions();
     Tree *root = NULL;
     bool exitFlag = false;
+    char value[maxLength] = {0};
+    int key = 0;
     while (!exitFlag)
     {
         int function = 0;
@@ -44,8 +46,6 @@ int main()
             }
         }
 
-        char value[maxLength] = {0};
-        int key = 0;
         switch (function)
         {
         case 1: //добавить значение по заданному ключу в словарь
