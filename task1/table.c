@@ -2,12 +2,13 @@
 #include "table.h"
 #include "list.h"
 
-#define hashSize 127
+#define hashSize 31
 
 typedef struct Table
 {
-    int sizeOfTable;
-    List *table[hashSize];
+    int amount;
+    int size;
+    List *hashes[hashSize];
 } Table;
 
 int hash(char *key)
@@ -31,6 +32,8 @@ Error tableCreate(Table **table)
     {
         return MemoryAllocationError;
     }
+    (*table)->size = hashSize;
+    return OK;
 }
 
 Error addToTable(Table *table, char *word)
@@ -39,7 +42,7 @@ Error addToTable(Table *table, char *word)
     {
         return PointerIsNull;
     }
-    List **bucket = &table->table[hash(word)];
+    List **bucket = &table->hashes[hash(word)];
     List *entry = findNode(bucket, word);
     if (entry == NULL)
     {
@@ -48,27 +51,83 @@ Error addToTable(Table *table, char *word)
         {
             return errorCode;
         }
-        ++table->sizeOfTable;
+        ++table->amount;
     }
     else
     {
         ++entry->value;
     }
+    return OK;
+}
+
+float loadFactor(Table *table)
+{
+    if (table == NULL)
+    {
+        return;
+    }
+    return table->amount / table->size;
+}
+
+int maxLengthList(Table *table)
+{
+    if (table == NULL)
+    {
+        return;
+    }
+    int maxLength = 0;
+    for (int i = 0; i < table->size; ++i)
+    {
+        if (lengthList(table->hashes[i]) > maxLength)
+        {
+            maxLength = lengthList(table->hashes[i]);
+        }
+    }
+    return maxLength;
+}
+
+int averageLengthList(Table *table)
+{
+    if (table == NULL)
+    {
+        return;
+    }
+    int numberOfLists = 0;
+    int numberOfNodes = 0;
+    for (int i = 0; i < table->size; ++i)
+    {
+        if (table->hashes[i] != NULL)
+        {
+            ++numberOfLists;
+            numberOfNodes += lengthList(table->hashes[i]);
+        }
+    }
+    return numberOfNodes / numberOfLists;
 }
 
 void printTable(Table *table)
 {
-    for (int i = 0; i < hashSize; ++i)
+    if (table == NULL)
     {
-        printList(table->table[i]);
+        return;
     }
+    for (int i = 0; i < table->size; ++i)
+    {
+        printList(table->hashes[i]);
+    }
+    return OK;
 }
 
 void freeTable(Table *table)
 {
-    for (int i = 0; i < hashSize; ++i)
+    if (table == NULL)
     {
-        freeList(table->table[i]);
+        return;
+    }
+    for (int i = 0; i < table->size; ++i)
+    {
+        freeList(table->hashes[i]);
     }
     free(table);
+    return OK;
 }

@@ -31,5 +31,8 @@ int main()
         }
     }
     printTable(table);
-    return 0;
+    printf("Load factor = %f\n", loadFactor(table));
+    printf("Max length of list = %d\n", maxLengthList(table));
+    printf("Average length of list = %d\n", averageLengthList(table));
+    return OK;
 }

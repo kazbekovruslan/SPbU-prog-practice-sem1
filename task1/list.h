@@ -25,4 +25,6 @@ List *findNode(List **head, char *key);
 
 void printList(List *head);
 
+int lengthList(List *head);
+
 void freeList(List *head);

@@ -43,6 +43,17 @@ List *findNode(List **head, char *key)
     return *head;
 }
 
+int lengthList(List *head)
+{
+    int length = 0;
+    while (head != NULL)
+    {
+        ++length;
+        head = head->next;
+    }
+    return length;
+}
+
 void printList(List *head)
 {
     while (head != NULL)
