@@ -2,7 +2,7 @@
 #include "table.h"
 #include "list.h"
 
-#define hashSize 31
+#define hashSize 61
 
 typedef struct Table
 {
