@@ -107,6 +107,7 @@ int main()
             }
         }
     }
+    fclose(file);
     printf("%s", maxDate);
     return 0;
 }
