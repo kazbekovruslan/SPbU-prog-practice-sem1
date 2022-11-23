@@ -102,7 +102,6 @@ int main()
             {
                 if (compareDates(date, maxDate) > 0)
                 {
-                    strcpy(maxDate, "0000000000");
                     strcpy(maxDate, date);
                 }
             }
