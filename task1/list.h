@@ -17,14 +17,17 @@ typedef struct List
 } List;
 
 // добавляет новый элемент в список
-// возвращает одну из Errors
+// возвращает код ошибки из Errors
 Error addToList(List **head, char *key, int value);
 
-// возвращает
+// возвращает элемент списка по ключу
 List *findNode(List **head, char *key);
 
+// выводит список
 void printList(List *head);
 
+//возвращает длину списка
 int lengthList(List *head);
 
+//очищает список
 void freeList(List *head);
