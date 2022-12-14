@@ -111,7 +111,7 @@ int main()
 			break;
 		}
 	}
-
+	fclose(file);
 	switch (stateOfStructure)
 	{
 	case OK:
