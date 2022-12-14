@@ -91,6 +91,7 @@ Error removeValue(List *list, Index index, Value *deletedValue)
     {
         previousElement = currentElement;
         currentElement = currentElement->next;
+        ++currentIndex;
     }
     if (currentIndex != index) // нет такого индекса
     {
@@ -145,5 +146,6 @@ Error freeList(List *list)
         free(currentElement);
         currentElement = nextElement;
     }
+    free(list);
     return OK;
 }

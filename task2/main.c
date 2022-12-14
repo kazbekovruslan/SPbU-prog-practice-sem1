@@ -25,7 +25,7 @@ Error sum(List *list, Index index1, Index index2)
 
     if (index1 < index2)
     {
-        errorCode = removeValue(list, index2 - 1, &secondSummand) == ZeroElementsInList;
+        errorCode = removeValue(list, index2 - 1, &secondSummand);
         if (errorCode == ZeroElementsInList)
         {
             return LessThanTwoElementsInList;
@@ -37,7 +37,7 @@ Error sum(List *list, Index index1, Index index2)
     }
     else
     {
-        errorCode = removeValue(list, index2, &secondSummand) == ZeroElementsInList;
+        errorCode = removeValue(list, index2, &secondSummand);
         if (errorCode == ZeroElementsInList)
         {
             return LessThanTwoElementsInList;
@@ -70,7 +70,7 @@ void printError(char errorCode)
         printf("Memory allocation error!\n");
         break;
     case PointerIsNull:
-        printf("Certain given pointer is NULL!\n");
+        printf("Some given pointer is NULL!\n");
         break;
     case ZeroElementsInList:
         printf("There no elements in list!\n");
@@ -194,6 +194,5 @@ int main()
         }
     }
     freeList(list);
-    free(list);
     return OK;
 }
