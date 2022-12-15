@@ -37,20 +37,20 @@ int binaryToDecimalConvert(unsigned char *binaryNumber)
 
 void binarySum(unsigned char *sumResult, unsigned char *firstBinaryNumber, unsigned char *secondBinaryNumber)
 {
-    int extraUnit = 0;
+    int transferBit = 0;
     int extraSum = 0;
     for (int i = binaryNumberLength - 1; i >= 0; --i)
     {
-        extraSum = firstBinaryNumber[i] + secondBinaryNumber[i] + extraUnit;
+        extraSum = firstBinaryNumber[i] + secondBinaryNumber[i] + transferBit;
         sumResult[i] = extraSum & 1;
-        extraUnit = extraSum >> 1;
+        transferBit = extraSum >> 1;
     }
 }
 
 bool test()
 {
-    int firstNumbers[5] = {1, 1000, 54, 2147483647, -53};
-    int secondNumbers[5] = {-1, 3, -53, -2147483647, 54};
+    int firstNumbers[5] = {1, 1000, 54, 2147483647, 2147483647};
+    int secondNumbers[5] = {-1, 3, -53, -2147483647, 2147483647};
     unsigned char firstBinaryNumber[binaryNumberLength] = {0};
     unsigned char secondBinaryNumber[binaryNumberLength] = {0};
     int firstNumber = 0;
