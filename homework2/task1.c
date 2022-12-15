@@ -16,11 +16,11 @@ int recursiveFibonacciNumber(unsigned int number)
         return recursiveFibonacciNumber(number - 1) + recursiveFibonacciNumber(number - 2);
     }
 }
-//при n >= 39 уже очень заметно
+// при n >= 39 уже очень заметно
 
 int iterativeFibonacciNumber(int number)
 {
-    int queueOfTwoNumbers[2] = { 1, 1 };
+    int queueOfTwoNumbers[2] = {1, 1};
     int currentFibonacciNumber = 1;
     for (int i = 2; i < number; ++i)
     {
@@ -53,7 +53,7 @@ bool test3(void)
     return recursiveFibonacciNumber(2) != 1 || iterativeFibonacciNumber(2) != 1;
 }
 
-void main(void)
+void main()
 {
     if (!test1() || !test2() || !test3())
     {
