@@ -19,7 +19,7 @@ void decimalToBinaryConvert(unsigned char *binaryNumber, int number)
     for (int i = binaryNumberLength - 1; i >= 0; --i)
     {
         binaryNumber[i] = (number & bit) ? 1 : 0;
-        bit = bit << 1;
+        bit <<= 1;
     }
 }
 
