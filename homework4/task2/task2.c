@@ -30,7 +30,7 @@ int mostFrequent(int *array, int arrayLength)
 
 int main()
 {
-    FILE *file = fopen("input.txt", "r");
+    FILE *file = fopen("../../homework4/task2/input.txt", "r");
     if (file == NULL)
     {
         printf("File not found!");
@@ -47,7 +47,7 @@ int main()
 
     if (sizeOfArray == 0)
     {
-        printf("File is empty!");
+        printf("Incorrect data!\n");
         fclose(file);
         return 1;
     }
@@ -67,6 +67,8 @@ int main()
         if (scanResult != 1)
         {
             printf("Incorrect data. File should contain only numbers!\n");
+            fclose(file);
+            free(array);
             return -2;
         }
         printf("%d ", array[i]);
