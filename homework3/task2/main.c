@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
-#include "quickSort.h"
+#include "../quickSort/quickSort.h"
 
 #define arraySize 100
 
@@ -40,12 +40,17 @@ bool test()
 {
     int array[10] = {4, 5, 10, 3, 5, 15, 32, 1, -2, 61};
     quickSort(array, 0, 9);
+    printArray(array, 10);
     for (int i = 0; i < 10; ++i)
     {
         if (binarySearchInSortedArray(array, array[i], 0, 9) != true)
         {
             return false;
         }
+    }
+    if (binarySearchInSortedArray(array, 6, 0, 9) || binarySearchInSortedArray(array, -3, 0, 9) || binarySearchInSortedArray(array, 70, 0, 9))
+    {
+        return false;
     }
     return true;
 }
