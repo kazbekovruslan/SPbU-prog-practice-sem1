@@ -60,9 +60,15 @@ int main()
     }
 
     printf("Your array: ");
+    int scanResult = 0;
     for (int i = 0; i < sizeOfArray; ++i)
     {
-        fscanf(file, "%d", &array[i]);
+        scanResult = fscanf(file, "%d", &array[i]);
+        if (scanResult != 1)
+        {
+            printf("Incorrect data. File should contain only numbers!\n");
+            return -2;
+        }
         printf("%d ", array[i]);
     }
     fclose(file);
