@@ -11,8 +11,7 @@ void swap(int *firstElement, int *secondElement)
     *secondElement = transitElement;
 }
 
-
-void sort(int* array)
+void sort(int *array)
 {
     int pivot = array[0];
     int currElement = 0;
@@ -24,20 +23,21 @@ void sort(int* array)
         if (array[i] < pivot)
         {
             swap(&array[i], &array[currElement]);
-            if (array[i] == pivot) pivotIndex = i;
+            if (array[i] == pivot)
+                pivotIndex = i;
             ++currElement;
         }
     }
 
     if (array[currElement] != pivot)
     {
-    swap(&array[pivotIndex], &array[currElement]);
+        swap(&array[pivotIndex], &array[currElement]);
     }
 }
 
 void main(void)
 {
-    int array[arraySize] = { 0 };
+    int array[arraySize] = {0};
 
     srand(time(0));
 
@@ -46,8 +46,10 @@ void main(void)
         array[i] = rand() % 32;
     }
     printf("Array before: ");
-    for (int i = 0; i < arraySize; ++i) printf("%d ", array[i]);
+    for (int i = 0; i < arraySize; ++i)
+        printf("%d ", array[i]);
     sort(array);
     printf("\nArray  after: ");
-    for (int i = 0; i < arraySize; ++i) printf("%d ", array[i]);
+    for (int i = 0; i < arraySize; ++i)
+        printf("%d ", array[i]);
 }
