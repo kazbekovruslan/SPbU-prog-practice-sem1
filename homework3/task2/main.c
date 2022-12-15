@@ -40,7 +40,6 @@ bool test()
 {
     int array[10] = {4, 5, 10, 3, 5, 15, 32, 1, -2, 61};
     quickSort(array, 0, 9);
-    printArray(array, 10);
     for (int i = 0; i < 10; ++i)
     {
         if (binarySearchInSortedArray(array, array[i], 0, 9) != true)
