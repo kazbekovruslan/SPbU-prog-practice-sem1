@@ -5,7 +5,7 @@
 #define arraySize 100
 #define countArraySize 1000
 
-void bubbleSort(int* array, int arrayLength)
+void bubbleSort(int *array, int arrayLength)
 {
     int transitElement = 0;
     for (int i = 0; i < arrayLength; ++i)
@@ -22,10 +22,9 @@ void bubbleSort(int* array, int arrayLength)
     }
 }
 
-
-void countSort(int* array, int arrayLength)
+void countSort(int *array, int arrayLength)
 {
-    int countArray[countArraySize] = { 0 };
+    int countArray[countArraySize] = {0};
 
     for (int i = 0; i < arrayLength; ++i)
     {
@@ -43,14 +42,11 @@ void countSort(int* array, int arrayLength)
     }
 }
 
-
 void main(void)
 {
     int scanResult = 0;
     int arrayLength = 0;
-    int array[arraySize] = { 0 };
-
-
+    int array[arraySize] = {0};
 
     while (!scanResult || !(arrayLength > 0 && arrayLength < 100))
     {
@@ -85,8 +81,6 @@ void main(void)
         }
     }
 
-
-
     int typeOfSort = 0;
     scanResult = 0;
     printf("What type of sorting do you want to use? ");
@@ -110,5 +104,6 @@ void main(void)
         countSort(array, arrayLength);
     }
 
-    for (int i = 0; i < arrayLength; ++i) printf("%d ", array[i]);
+    for (int i = 0; i < arrayLength; ++i)
+        printf("%d ", array[i]);
 }

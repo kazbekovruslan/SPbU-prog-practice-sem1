@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-
 float slowPow(float number, int degree)
 {
     float exponentiatedNumber = 1;
 
-    if (degree == 0) return 1;
+    if (degree == 0)
+        return 1;
 
     for (int i = 0; i < abs(degree); ++i)
     {
@@ -28,12 +28,13 @@ float fastPow(float number, int degree)
     float exponentiatedNumber = 1;
     bool isDegreeNegative = false;
 
-    if (degree == 0) return 1;
+    if (degree == 0)
+        return 1;
 
-    isDegreeNegative  = degree < 0;
+    isDegreeNegative = degree < 0;
 
     degree = abs(degree);
-    
+
     while (degree != 0)
     {
         if (degree % 2 == 1)
@@ -44,10 +45,10 @@ float fastPow(float number, int degree)
         degree /= 2;
     }
 
-    if (isDegreeNegative) return 1 / exponentiatedNumber;
+    if (isDegreeNegative)
+        return 1 / exponentiatedNumber;
     return exponentiatedNumber;
 }
-
 
 bool test()
 {
@@ -59,9 +60,9 @@ bool test()
             if (number != 0 && degree != 0)
             {
                 if (abs(slowPow(number, degree) - fastPow(number, degree)) > delta)
-                {   
+                {
                     printf("ERROR! TESTS FAILED!\n");
-                    printf("Number = %f, degree = %d, first = %f, second = %f, real delta = %f\n", number, degree, slowPow(number,degree), fastPow(number,degree), abs(slowPow(number,degree) - fastPow(number,degree)));
+                    printf("Number = %f, degree = %d, first = %f, second = %f, real delta = %f\n", number, degree, slowPow(number, degree), fastPow(number, degree), abs(slowPow(number, degree) - fastPow(number, degree)));
                     return false;
                 }
             }
@@ -72,11 +73,12 @@ bool test()
 
 void main(void)
 {
-    if (!test()) return;
+    if (!test())
+        return;
 
     float number = 0;
     int degree = 0;
-    
+
     int scanResult = 0;
     while (!scanResult)
     {
@@ -120,7 +122,7 @@ void main(void)
             scanf_s("%*[^\n]");
         }
     }
-    
+
     printf("Exponentiated number: ");
 
     if (typeOfExponentiation == 1)
