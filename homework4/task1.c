@@ -71,12 +71,12 @@ bool test()
 
 void main()
 {
+    setlocale(LC_ALL, "");
     if (!test())
     {
-        printf("TEST FAILED!\n");
+        printf("Тест провален!\n");
         return;
     }
-    setlocale(LC_ALL, "");
 
     int firstNumber = 0;
     int secondNumber = 0;
