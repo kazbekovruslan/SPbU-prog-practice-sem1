@@ -54,17 +54,17 @@ Error addValue(List *list, Value value)
     {
         currentNode->next = newNode;
     }
-    else if (previousNode == NULL) //в начало
+    else if (previousNode == NULL) // в начало
     {
         newNode->next = currentNode;
         list->head = newNode;
     }
-    else if (currentNode->value > newNode->value) //в середину
+    else if (currentNode->value > newNode->value) // в середину
     {
         previousNode->next = newNode;
         newNode->next = currentNode;
     }
-    else //в конец
+    else // в конец
     {
         currentNode->next = newNode;
         newNode->next = NULL;
@@ -90,15 +90,15 @@ Error removeValue(List *list, Value value)
         previousElement = currentElement;
         currentElement = currentElement->next;
     }
-    if (currentElement->value != value) //нет такого элемента
+    if (currentElement->value != value) // нет такого элемента
     {
         return -3;
     }
-    if (previousElement == NULL) //первый элемент
+    if (previousElement == NULL) // первый элемент
     {
         list->head = currentElement->next;
     }
-    else //остальные элементы
+    else // остальные элементы
     {
         previousElement->next = currentElement->next;
     }
@@ -111,6 +111,11 @@ Error printList(List *list)
     if (list == NULL)
     {
         return -1;
+    }
+    if (list->head == NULL)
+    {
+        printf("List is empty!\n");
+        return 0;
     }
     printf("List: ");
     Node *currentNode = list->head;
