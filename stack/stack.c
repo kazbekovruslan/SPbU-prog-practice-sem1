@@ -136,5 +136,6 @@ int freeStack(Stack *stack)
         currentElement = nextElement;
     }
     stack->head = NULL;
+    free(stack);
     return 0;
 }
