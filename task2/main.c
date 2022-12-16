@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../stack/stack.h"
 
-int areBracketsBalanced(char *sequence, bool *result)
+int areBracketsBalanced(char *sequence, bool *areBalanced)
 {
     Stack *stack = stackCreate();
     if (stack == NULL)
@@ -26,26 +26,26 @@ int areBracketsBalanced(char *sequence, bool *result)
         case '[':
         {
             errorCode = push(stack, sequence[i]);
-            if (errorCode == -1)
+            if (errorCode != 0)
             {
                 freeStack(stack);
-                return -1;
+                return errorCode;
             }
             break;
         }
         case ')':
         {
             errorCode = top(stack, &topElement);
-            if (errorCode == -1)
-            {
-                freeStack(stack);
-                return -1;
-            }
             if (errorCode == -2)
             {
-                *result = false;
+                *areBalanced = false;
                 freeStack(stack);
                 return 0;
+            }
+            if (errorCode != 0)
+            {
+                freeStack(stack);
+                return errorCode;
             }
 
             if (topElement == (int)'(')
@@ -59,7 +59,8 @@ int areBracketsBalanced(char *sequence, bool *result)
             }
             else
             {
-                *result = false;
+                *areBalanced = false;
+                freeStack(stack);
                 return 0;
             }
             break;
@@ -74,7 +75,7 @@ int areBracketsBalanced(char *sequence, bool *result)
             }
             if (errorCode == -2)
             {
-                *result = false;
+                *areBalanced = false;
                 freeStack(stack);
                 return 0;
             }
@@ -90,7 +91,8 @@ int areBracketsBalanced(char *sequence, bool *result)
             }
             else
             {
-                *result = false;
+                *areBalanced = false;
+                freeStack(stack);
                 return 0;
             }
             break;
@@ -105,7 +107,7 @@ int areBracketsBalanced(char *sequence, bool *result)
             }
             if (errorCode == -2)
             {
-                *result = false;
+                *areBalanced = false;
                 freeStack(stack);
                 return 0;
             }
@@ -121,7 +123,8 @@ int areBracketsBalanced(char *sequence, bool *result)
             }
             else
             {
-                *result = false;
+                *areBalanced = false;
+                freeStack(stack);
                 return 0;
             }
             break;
@@ -129,7 +132,7 @@ int areBracketsBalanced(char *sequence, bool *result)
         }
     }
 
-    *result = isEmpty(stack);
+    *areBalanced = isEmpty(stack);
     freeStack(stack);
     return 0;
 }
@@ -137,9 +140,9 @@ int areBracketsBalanced(char *sequence, bool *result)
 bool test1()
 {
     char sequence[10] = "([({dd})])";
-    bool result = false;
-    int errorCode = areBracketsBalanced(sequence, &result);
-    if (errorCode != 0 || !result)
+    bool areBalanced = false;
+    int errorCode = areBracketsBalanced(sequence, &areBalanced);
+    if (errorCode != 0 || !areBalanced)
     {
         return false;
     }
@@ -149,9 +152,9 @@ bool test1()
 bool test2()
 {
     char sequence[15] = "{([}])";
-    bool result = false;
-    int errorCode = areBracketsBalanced(sequence, &result);
-    if (errorCode != 0 || result)
+    bool areBalanced = false;
+    int errorCode = areBracketsBalanced(sequence, &areBalanced);
+    if (errorCode != 0 || areBalanced)
     {
         return false;
     }
@@ -161,9 +164,9 @@ bool test2()
 bool test3()
 {
     char sequence[5] = "[{})]";
-    bool result = false;
-    int errorCode = areBracketsBalanced(sequence, &result);
-    if (errorCode != 0 || result)
+    bool areBalanced = false;
+    int errorCode = areBracketsBalanced(sequence, &areBalanced);
+    if (errorCode != 0 || areBalanced)
     {
         return false;
     }
@@ -182,13 +185,13 @@ int main()
         return -10;
     }
     int lengthOfSequence = -1;
-    int scanResult = 0;
+    int scanareBalanced = 0;
 
-    while (!scanResult || lengthOfSequence <= 0)
+    while (!scanareBalanced || lengthOfSequence <= 0)
     {
         printf("Enter the length of your sequence: ");
-        scanResult = scanf("%d", &lengthOfSequence);
-        if (!scanResult)
+        scanareBalanced = scanf("%d", &lengthOfSequence);
+        if (!scanareBalanced)
         {
             scanf("%*[^\n]");
             printf("Incorrect input! Number is required. Try again!\n");
@@ -214,8 +217,8 @@ int main()
         return -1;
     }
 
-    bool result = false;
-    int errorCode = areBracketsBalanced(sequence, &result);
+    bool areBalanced = false;
+    int errorCode = areBracketsBalanced(sequence, &areBalanced);
     free(sequence);
     if (errorCode == -1)
     {
@@ -228,7 +231,7 @@ int main()
         return -2;
     }
 
-    if (result)
+    if (areBalanced)
     {
         printf("Brackets in your sequence are balanced!\n");
     }
