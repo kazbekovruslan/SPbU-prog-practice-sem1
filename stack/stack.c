@@ -30,7 +30,7 @@ int push(Stack *stack, int value)
     StackElement *newElement = calloc(1, sizeof(StackElement));
     if (newElement == NULL)
     {
-        return -1;
+        return -3;
     }
     newElement->value = value;
 
@@ -115,7 +115,7 @@ bool isEmpty(Stack *stack)
 {
     if (stack == NULL)
     {
-        return -1;
+        return true;
     }
     return stack->head == NULL;
 }
