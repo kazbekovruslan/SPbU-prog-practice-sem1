@@ -75,7 +75,7 @@ int main()
                 return -2;
             }
         }
-        else if ((int)c >= 48 && (int)c <= 57)
+        else if (c >= '0' && c <= '9')
         {
             int number = c - '0';
             errorCode = push(stack, number);
@@ -121,9 +121,7 @@ int main()
         return -2;
     }
 
-    int lengthOfStack = 0;
-    errorCode = len(stack, &lengthOfStack);
-    if (lengthOfStack == 1)
+    if (isEmpty(stack))
     {
         printf("Answer: %d", answer);
     }
@@ -131,6 +129,7 @@ int main()
     {
         printf("Incorrect input!\n");
         freeStack(stack);
+        return -3;
     }
 
     freeStack(stack);
