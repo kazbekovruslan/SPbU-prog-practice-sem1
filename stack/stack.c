@@ -10,7 +10,7 @@ typedef struct StackElement
     struct StackElement *next;
 } StackElement;
 
-typedef struct Stack 
+typedef struct Stack
 {
     StackElement *head;
 } Stack;
@@ -27,19 +27,13 @@ int push(Stack *stack, int value)
     {
         return -1;
     }
-    if (stack->head == NULL)
-    {
-        stack->head = calloc(1, sizeof(StackElement));
-        stack->head->value = value;
-        return 0;
-    }
     StackElement *newElement = calloc(1, sizeof(StackElement));
     if (newElement == NULL)
     {
         return -1;
     }
     newElement->value = value;
-    
+
     newElement->next = stack->head;
     stack->head = newElement;
     return 0;
@@ -67,6 +61,11 @@ int printStack(Stack *stack)
     if (stack == NULL)
     {
         return -1;
+    }
+    if (stack->head == NULL)
+    {
+        printf("Stack is empty!\n");
+        return 0;
     }
     StackElement *currentElement = stack->head;
     printf("Stack: ");
