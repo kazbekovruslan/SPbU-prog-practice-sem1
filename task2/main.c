@@ -21,127 +21,116 @@ int areBracketsBalanced(char *sequence, bool *result)
     {
         switch (sequence[i])
         {
-            case '(':
-            case '{':
-            case '[':
+        case '(':
+        case '{':
+        case '[':
+        {
+            errorCode = push(stack, sequence[i]);
+            if (errorCode == -1)
             {
-                errorCode = push(stack, sequence[i]);
-                if (errorCode == -1)
-                {
-                    freeStack(stack);
-                    free(stack);
-                    return -1;
-                }
-                break;
+                freeStack(stack);
+                return -1;
             }
-            case ')':
+            break;
+        }
+        case ')':
+        {
+            errorCode = top(stack, &topElement);
+            if (errorCode == -1)
             {
-                errorCode = top(stack, &topElement);
-                if (errorCode == -1)
-                {
-                    freeStack(stack);
-                    free(stack);
-                    return -1;
-                }
-                if (errorCode == -2)
-                {
-                    *result = false;
-                    freeStack(stack);
-                    free(stack);
-                    return 0;
-                }
+                freeStack(stack);
+                return -1;
+            }
+            if (errorCode == -2)
+            {
+                *result = false;
+                freeStack(stack);
+                return 0;
+            }
 
-                if (topElement == (int)'(')
-                {
-                    errorCode = pop(stack, &poppedElement);
-                    if (errorCode != 0)
-                    {
-                        freeStack(stack);
-                        free(stack);
-                        return errorCode;
-                    }
-                }
-                else
-                {
-                    *result = false;
-                    return 0;
-                }
-                break;
-            }
-            case '}':
+            if (topElement == (int)'(')
             {
-                errorCode = top(stack, &topElement);
-                if (errorCode == -1)
+                errorCode = pop(stack, &poppedElement);
+                if (errorCode != 0)
                 {
                     freeStack(stack);
-                    free(stack);
-                    return -1;
+                    return errorCode;
                 }
-                if (errorCode == -2)
-                {
-                    *result = false;
-                    freeStack(stack);
-                    free(stack);
-                    return 0;
-                }
-
-                if (topElement == (int)'{')
-                {
-                    errorCode = pop(stack, &poppedElement);
-                    if (errorCode != 0)
-                    {
-                        freeStack(stack);
-                        free(stack);
-                        return errorCode;
-                    }
-                }
-                else
-                {
-                    *result = false;
-                    return 0;
-                }
-                break;
             }
-            case ']':
+            else
             {
-                errorCode = top(stack, &topElement);
-                if (errorCode == -1)
-                {
-                    freeStack(stack);
-                    free(stack);
-                    return -1;
-                }
-                if (errorCode == -2)
-                {
-                    *result = false;
-                    freeStack(stack);
-                    free(stack);
-                    return 0;
-                }
-
-                if (topElement == (int)'[')
-                {
-                    errorCode = pop(stack, &poppedElement);
-                    if (errorCode != 0)
-                    {
-                        freeStack(stack);
-                        free(stack);
-                        return errorCode;
-                    }
-                }
-                else
-                {
-                    *result = false;
-                    return 0;
-                }
-                break;
+                *result = false;
+                return 0;
             }
+            break;
+        }
+        case '}':
+        {
+            errorCode = top(stack, &topElement);
+            if (errorCode == -1)
+            {
+                freeStack(stack);
+                return -1;
+            }
+            if (errorCode == -2)
+            {
+                *result = false;
+                freeStack(stack);
+                return 0;
+            }
+
+            if (topElement == (int)'{')
+            {
+                errorCode = pop(stack, &poppedElement);
+                if (errorCode != 0)
+                {
+                    freeStack(stack);
+                    return errorCode;
+                }
+            }
+            else
+            {
+                *result = false;
+                return 0;
+            }
+            break;
+        }
+        case ']':
+        {
+            errorCode = top(stack, &topElement);
+            if (errorCode == -1)
+            {
+                freeStack(stack);
+                return -1;
+            }
+            if (errorCode == -2)
+            {
+                *result = false;
+                freeStack(stack);
+                return 0;
+            }
+
+            if (topElement == (int)'[')
+            {
+                errorCode = pop(stack, &poppedElement);
+                if (errorCode != 0)
+                {
+                    freeStack(stack);
+                    return errorCode;
+                }
+            }
+            else
+            {
+                *result = false;
+                return 0;
+            }
+            break;
+        }
         }
     }
 
     *result = isEmpty(stack);
     freeStack(stack);
-    free(stack);
     return 0;
 }
 
@@ -159,10 +148,10 @@ bool test1()
 
 bool test2()
 {
-    char sequence[15] = "{{[d([{[]}])]}}";
+    char sequence[15] = "{([}])";
     bool result = false;
     int errorCode = areBracketsBalanced(sequence, &result);
-    if (errorCode != 0 || !result)
+    if (errorCode != 0 || result)
     {
         return false;
     }
@@ -180,7 +169,6 @@ bool test3()
     }
     return true;
 }
-
 
 int main()
 {
@@ -225,7 +213,7 @@ int main()
         printf("Length of your sequence doesn't match with inputted length!");
         return -1;
     }
-    
+
     bool result = false;
     int errorCode = areBracketsBalanced(sequence, &result);
     free(sequence);
