@@ -6,7 +6,7 @@
 
 #define maxLength 256
 
-int operationPriority (char operation)
+int operationPriority(char operation)
 {
     if (operation == '+' || operation == '-')
     {
@@ -16,22 +16,16 @@ int operationPriority (char operation)
     {
         return 2;
     }
-    if (operation == '(')
-    {
-        return 3;
-    }
-    if (operation == ')')
-    {
-        return 4;
-    }
-    return 5;
+    return 3;
 }
 
-bool isOperation(char c) {
+bool isOperation(char c)
+{
     return c == '+' || c == '-' || c == '*' || c == '/';
 }
 
-void addChar(char *output, int *index, const char ch) {
+void addChar(char *output, int *index, const char ch)
+{
     output[(*index)++] = ch;
     output[(*index)++] = ' ';
 }
@@ -57,7 +51,6 @@ int sortingStation(const char *sequence, const int lengthOfSequence, char *outpu
                 if (errorCode = top(stack, &topElement) != 0)
                 {
                     freeStack(stack);
-                    free(stack);
                     return errorCode;
                 }
 
@@ -67,7 +60,6 @@ int sortingStation(const char *sequence, const int lengthOfSequence, char *outpu
                     if (errorCode = pop(stack, &topElement) != 0)
                     {
                         freeStack(stack);
-                        free(stack);
                         return errorCode;
                     }
 
@@ -76,43 +68,38 @@ int sortingStation(const char *sequence, const int lengthOfSequence, char *outpu
                         if (errorCode = top(stack, &topElement) != 0)
                         {
                             freeStack(stack);
-                            free(stack);
                             return errorCode;
                         }
                     }
                 }
             }
-            
+
             if (errorCode = push(stack, sequence[i]) != 0)
             {
                 freeStack(stack);
-                free(stack);
                 return errorCode;
             }
         }
-        
+
         else if (sequence[i] == '(')
         {
             if (errorCode = push(stack, sequence[i]) != 0)
             {
                 freeStack(stack);
-                free(stack);
                 return errorCode;
             }
         }
-        
+
         else if (sequence[i] == ')')
         {
             if (isEmpty(stack))
             {
                 freeStack(stack);
-                free(stack);
                 return -1;
             }
             if (errorCode = top(stack, &topElement) != 0)
             {
                 freeStack(stack);
-                free(stack);
                 return errorCode;
             }
             while (!isEmpty(stack) && topElement != '(')
@@ -121,26 +108,22 @@ int sortingStation(const char *sequence, const int lengthOfSequence, char *outpu
                 if (errorCode = pop(stack, &topElement) != 0)
                 {
                     freeStack(stack);
-                    free(stack);
                     return errorCode;
                 }
                 if (errorCode = top(stack, &topElement) != 0)
                 {
                     freeStack(stack);
-                    free(stack);
                     return errorCode;
                 }
             }
             if (isEmpty(stack))
             {
                 freeStack(stack);
-                free(stack);
                 return -1;
             }
             if (errorCode = pop(stack, &topElement) != 0)
             {
                 freeStack(stack);
-                free(stack);
                 return errorCode;
             }
         }
@@ -149,16 +132,16 @@ int sortingStation(const char *sequence, const int lengthOfSequence, char *outpu
         {
             addChar(output, &outputIndex, sequence[i]);
         }
-        
+
         else if (sequence[i] == ' ')
         {
+            continue;
         }
 
         else
         {
             freeStack(stack);
-            free(stack);
-            return -5; //wrong input
+            return -5; // wrong input
         }
     }
 
@@ -168,17 +151,13 @@ int sortingStation(const char *sequence, const int lengthOfSequence, char *outpu
         if (errorCode = pop(stack, &topElement) != 0 || !isOperation(topElement))
         {
             freeStack(stack);
-            free(stack);
             return errorCode;
         }
         addChar(output, &outputIndex, topElement);
     }
     freeStack(stack);
-    free(stack);
     return 0;
 }
-
-
 
 int main()
 {
