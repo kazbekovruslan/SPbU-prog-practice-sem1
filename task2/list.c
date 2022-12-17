@@ -52,6 +52,11 @@ Error addNumber(List *list, int number)
     return 0;
 }
 
+bool isLength1(List *list)
+{
+    return list->tail == list->head && list->head != NULL;
+}
+
 Error removeNumbers(List *list, int step)
 {
     if (list == NULL)
@@ -68,11 +73,11 @@ Error removeNumbers(List *list, int step)
             previousNode = currentNode;
             currentNode = currentNode->next;
         }
-        if (currentNode->number == list->head->number) //если удаляется голова
+        if (currentNode->number == list->head->number) // если удаляется голова
         {
             list->head = currentNode->next;
         }
-        if (currentNode->number == list->tail->number) //если удаляется хвост
+        if (currentNode->number == list->tail->number) // если удаляется хвост
         {
             list->tail = previousNode;
         }
@@ -102,15 +107,6 @@ Error printList(List *list)
     return 0;
 }
 
-bool isLength1(List *list)
-{
-    if (list->tail == list->head && list->head != NULL)
-    {
-        return true;
-    }
-    return false;
-}
-
 Error firstElement(List *list, int *lastStanding)
 {
     if (list == NULL)
@@ -119,7 +115,7 @@ Error firstElement(List *list, int *lastStanding)
     }
     if (list->head == NULL)
     {
-        return -1;
+        return -2;
     }
     *lastStanding = list->head->number;
     return 0;
