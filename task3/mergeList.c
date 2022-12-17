@@ -45,6 +45,10 @@ Error fillList(List **head, char *pathToFile)
 void freeList(List **head)
 {
     List *tmp = NULL;
+    if (head == NULL)
+    {
+        return;
+    }
     while (*head != NULL)
     {
         tmp = *head;
@@ -144,17 +148,13 @@ void merge(List *leftList, List *rightList, List **resultList, int typeOfCompare
         *resultList = (*resultList)->next;
     }
 
-    while (leftList != NULL)
+    if (rightList == NULL)
     {
         (*resultList)->next = leftList;
-        leftList = leftList->next;
-        *resultList = (*resultList)->next;
     }
-    while (rightList != NULL)
+    if (leftList == NULL)
     {
         (*resultList)->next = rightList;
-        rightList = rightList->next;
-        *resultList = (*resultList)->next;
     }
 
     *resultList = head;
