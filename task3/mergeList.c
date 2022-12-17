@@ -13,32 +13,17 @@ typedef struct List
     struct List *next;
 } List;
 
-Error fillList(List **head, char *pathToFile)
+Error addRecord(List **head, char *name, char *phone)
 {
-    if (head == NULL)
+    List *record = calloc(1, sizeof(List));
+    if (record == NULL)
     {
         return -1;
     }
-    FILE *file = fopen(pathToFile, "r");
-    if (file == NULL)
-    {
-        return -2;
-    }
-    while (!feof(file))
-    {
-        List *newNode = calloc(1, sizeof(List));
-        if (newNode == NULL)
-        {
-            return -1;
-        }
-        char name[maxLength] = {0};
-        char phone[maxLength] = {0};
-        fscanf(file, "%s %s", name, phone);
-        strcpy(newNode->name, name);
-        strcpy(newNode->phone, phone);
-        newNode->next = *head;
-        *head = newNode;
-    }
+    strcpy(record->name, name);
+    strcpy(record->phone, phone);
+    record->next = *head;
+    *head = record;
     return 0;
 }
 

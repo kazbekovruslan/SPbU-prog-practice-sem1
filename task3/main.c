@@ -2,6 +2,34 @@
 #include <stdlib.h>
 #include "mergeList.h"
 
+#define maxLength 256
+
+Error fillList(List **head, char *pathToFile)
+{
+    if (head == NULL)
+    {
+        return -1;
+    }
+    FILE *file = fopen(pathToFile, "r");
+    if (file == NULL)
+    {
+        return -2;
+    }
+    int errorCode = 0;
+    while (!feof(file))
+    {
+        char name[maxLength] = {0};
+        char phone[maxLength] = {0};
+        fscanf(file, "%s %s", name, phone);
+        errorCode = addRecord(head, name, phone);
+        if (errorCode != 0)
+        {
+            return errorCode;
+        }
+    }
+    return 0;
+}
+
 int main()
 {
     List *head = NULL;
