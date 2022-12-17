@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define maxLength 256
 
@@ -157,4 +158,84 @@ void mergeSort(List **head, int typeOfCompare)
     mergeSort(&leftList, typeOfCompare);
     mergeSort(&rightList, typeOfCompare);
     merge(leftList, rightList, head, typeOfCompare);
+}
+
+bool addTest()
+{
+    List *head = NULL;
+    int errorCode = 0;
+
+    errorCode = addRecord(&head, "Anna", "+7961");
+    if (!(errorCode == 0 && strcmp(head->name, "Anna") == 0 && strcmp(head->phone, "+7961") == 0))
+    {
+        return false;
+    }
+
+    errorCode = addRecord(&head, "Boris", "+7951");
+    if (!(errorCode == 0 && strcmp(head->name, "Boris") == 0 && strcmp(head->phone, "+7951") == 0 &&
+          strcmp(head->next->name, "Anna") == 0 && strcmp(head->next->phone, "+7961") == 0))
+    {
+        return false;
+    }
+
+    errorCode = addRecord(&head, "Cirilla", "+7971");
+    if (!(errorCode == 0 && strcmp(head->name, "Cirilla") == 0 && strcmp(head->phone, "+7971") == 0 &&
+          strcmp(head->next->name, "Boris") == 0 && strcmp(head->next->phone, "+7951") == 0 &&
+          strcmp(head->next->next->name, "Anna") == 0 && strcmp(head->next->next->phone, "+7961") == 0))
+    {
+        return false;
+    }
+
+    freeList(&head);
+    return true;
+}
+
+bool mergeSortTest()
+{
+    List *head = calloc(1, sizeof(List));
+    if (head == NULL)
+    {
+        return false;
+    }
+    strcpy(head->name, "Cirilla");
+    strcpy(head->phone, "+7971");
+
+    head->next = calloc(1, sizeof(List));
+    if (head->next == NULL)
+    {
+        return false;
+    }
+    strcpy(head->next->name, "Boris");
+    strcpy(head->next->phone, "+7951");
+
+    head->next->next = calloc(1, sizeof(List));
+    if (head->next->next == NULL)
+    {
+        return false;
+    }
+    strcpy(head->next->next->name, "Anna");
+    strcpy(head->next->next->phone, "+7961");
+
+    mergeSort(&head, 0);
+    if (!(strcmp(head->name, "Anna") == 0 && strcmp(head->phone, "+7961") == 0 &&
+          strcmp(head->next->name, "Boris") == 0 && strcmp(head->next->phone, "+7951") == 0 &&
+          strcmp(head->next->next->name, "Cirilla") == 0 && strcmp(head->next->next->phone, "+7971") == 0))
+    {
+        return false;
+    }
+    mergeSort(&head, 1);
+    if (!(strcmp(head->name, "Boris") == 0 && strcmp(head->phone, "+7951") == 0 &&
+          strcmp(head->next->name, "Anna") == 0 && strcmp(head->next->phone, "+7961") == 0 &&
+          strcmp(head->next->next->name, "Cirilla") == 0 && strcmp(head->next->next->phone, "+7971") == 0))
+    {
+        return false;
+    }
+
+    freeList(&head);
+    return true;
+}
+
+bool tests()
+{
+    return addTest() && mergeSortTest();
 }

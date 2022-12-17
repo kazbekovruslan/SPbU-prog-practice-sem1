@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "mergeList.h"
 
 #define maxLength 256
@@ -32,6 +33,11 @@ Error fillList(List **head, char *pathToFile)
 
 int main()
 {
+    if (!tests())
+    {
+        printf("TESTS FAILED!\n");
+        return -100;
+    }
     List *head = NULL;
     int errorCode = fillList(&head, "../../task3/input.txt");
     if (errorCode == -1)

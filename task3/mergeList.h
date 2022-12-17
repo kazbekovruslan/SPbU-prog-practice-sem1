@@ -16,3 +16,6 @@ void printList(List *head);
 
 // сортировка слиянием
 void mergeSort(List **head, int typeOfCompare);
+
+// тесты для функций addRecord и mergeSort
+bool tests();
