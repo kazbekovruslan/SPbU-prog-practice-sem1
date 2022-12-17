@@ -168,6 +168,7 @@ bool addTest()
     errorCode = addRecord(&head, "Anna", "+7961");
     if (!(errorCode == 0 && strcmp(head->name, "Anna") == 0 && strcmp(head->phone, "+7961") == 0))
     {
+        freeList(&head);
         return false;
     }
 
@@ -175,6 +176,7 @@ bool addTest()
     if (!(errorCode == 0 && strcmp(head->name, "Boris") == 0 && strcmp(head->phone, "+7951") == 0 &&
           strcmp(head->next->name, "Anna") == 0 && strcmp(head->next->phone, "+7961") == 0))
     {
+        freeList(&head);
         return false;
     }
 
@@ -183,6 +185,7 @@ bool addTest()
           strcmp(head->next->name, "Boris") == 0 && strcmp(head->next->phone, "+7951") == 0 &&
           strcmp(head->next->next->name, "Anna") == 0 && strcmp(head->next->next->phone, "+7961") == 0))
     {
+        freeList(&head);
         return false;
     }
 
@@ -221,6 +224,7 @@ bool mergeSortTest()
           strcmp(head->next->name, "Boris") == 0 && strcmp(head->next->phone, "+7951") == 0 &&
           strcmp(head->next->next->name, "Cirilla") == 0 && strcmp(head->next->next->phone, "+7971") == 0))
     {
+        freeList(&head);
         return false;
     }
     mergeSort(&head, 1);
@@ -228,6 +232,7 @@ bool mergeSortTest()
           strcmp(head->next->name, "Anna") == 0 && strcmp(head->next->phone, "+7961") == 0 &&
           strcmp(head->next->next->name, "Cirilla") == 0 && strcmp(head->next->next->phone, "+7971") == 0))
     {
+        freeList(&head);
         return false;
     }
 
