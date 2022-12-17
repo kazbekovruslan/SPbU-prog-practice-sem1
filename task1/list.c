@@ -145,12 +145,16 @@ bool addTest()
     errorCode = addValue(list, 4);
     if (!(errorCode == 0 && list->head->value == 4))
     {
+        freeList(list);
+        free(list);
         return false;
     }
 
     errorCode = addValue(list, 1);
     if (!(errorCode == 0 && list->head->value == 1 && list->head->next->value == 4 && list->head->next->next == NULL))
     {
+        freeList(list);
+        free(list);
         return false;
     }
 
@@ -158,6 +162,8 @@ bool addTest()
     if (!(errorCode == 0 && list->head->value == 1 && list->head->next->value == 3 && list->head->next->next->value == 4 &&
           list->head->next->next->next == NULL))
     {
+        freeList(list);
+        free(list);
         return false;
     }
 
@@ -165,6 +171,8 @@ bool addTest()
     if (!(errorCode == 0 && list->head->value == 1 && list->head->next->value == 3 && list->head->next->next->value == 4 &&
           list->head->next->next->next->value == 5 && list->head->next->next->next->next == NULL))
     {
+        freeList(list);
+        free(list);
         return false;
     }
 
@@ -204,16 +212,22 @@ bool removeTest()
     errorCode = removeValue(list, 2);
     if (!(errorCode == 0 && list->head->value == 1 && list->head->next->value == 3 && list->head->next->next == NULL))
     {
+        freeList(list);
+        free(list);
         return false;
     }
     errorCode = removeValue(list, 3);
     if (!(errorCode == 0 && list->head->value == 1 && list->head->next == NULL))
     {
+        freeList(list);
+        free(list);
         return false;
     }
     errorCode = removeValue(list, 1);
     if (!(errorCode == 0 && list->head == NULL))
     {
+        freeList(list);
+        free(list);
         return false;
     }
     freeList(list);
