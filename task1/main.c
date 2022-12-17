@@ -6,6 +6,11 @@
 
 int main()
 {
+    if (!tests())
+    {
+        printf("TESTS FAILED!\n");
+        return -100;
+    }
     List *list = listCreate();
     if (list == NULL)
     {
@@ -53,6 +58,8 @@ int main()
             if (errorCode == -1)
             {
                 printf("Memory error!\n");
+                freeList(list);
+                free(list);
                 return -1;
             }
             break;
@@ -74,9 +81,11 @@ int main()
             if (errorCode == -1)
             {
                 printf("Memory error!\n");
+                freeList(list);
+                free(list);
                 return -1;
             }
-            if (errorCode == -3)
+            if (errorCode == -3 || errorCode == -2)
             {
                 printf("There is no such element!\n");
             }
@@ -88,6 +97,8 @@ int main()
             if (errorCode == -1)
             {
                 printf("Memory error!\n");
+                freeList(list);
+                free(list);
                 return -1;
             }
             break;
