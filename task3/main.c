@@ -5,7 +5,7 @@
 int main()
 {
     List *head = NULL;
-    int errorCode = fillList(&head, "input.txt");
+    int errorCode = fillList(&head, "../../task3/input.txt");
     if (errorCode == -1)
     {
         printf("Memory error!\n");
