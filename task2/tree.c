@@ -12,7 +12,7 @@ typedef enum
 
 typedef struct Tree
 {
-    int value;    //значение для числа
+    int value;    // значение для числа
     char element; // /,+,*,-,(,) и -1, если число
     struct Tree *leftChild;
     struct Tree *rightChild;
@@ -88,9 +88,10 @@ Error buildTree(Tree **root, FILE *file)
             (*root)->element = -1;
             ungetc(currentSymbol, file);
             fscanf(file, "%d", &(*root)->value);
-            return 0;
+            break;
         }
     }
+    return OK;
 }
 
 int calculateTree(Tree *root)
