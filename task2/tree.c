@@ -30,7 +30,7 @@ Error buildTree(Tree **root, FILE *file)
             continue;
             break;
         case ')':
-            return 0;
+            return OK;
         case '+':
         case '*':
         case '/':
