@@ -71,7 +71,7 @@ Error buildTree(Tree **root, FILE *file)
             {
                 return MemoryAllocationError;
             }
-            break;
+            return OK;
         default: // positive numbers
             *root = calloc(1, sizeof(Tree));
             if (*root == NULL)
@@ -82,10 +82,9 @@ Error buildTree(Tree **root, FILE *file)
             (*root)->element = -1;
             ungetc(currentSymbol, file);
             fscanf(file, "%d", &(*root)->value);
-            break;
+            return OK;
         }
     }
-    return OK;
 }
 
 int calculateTree(Tree *root)
