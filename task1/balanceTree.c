@@ -240,7 +240,7 @@ Tree *findLeftBiggest(Tree *node)
     return leftBiggestChild;
 }
 
-Tree *deletePIZDEC(Tree *node, char *key, bool *isClimb)
+Tree *removeValue(Tree *node, char *key, bool *isClimb)
 {
     if (node == NULL)
     {
@@ -265,18 +265,18 @@ Tree *deletePIZDEC(Tree *node, char *key, bool *isClimb)
             Tree *nodeLeftBiggestChild = findLeftBiggest(node);
             strcpy(node->key, nodeLeftBiggestChild->key);
             strcpy(node->value, nodeLeftBiggestChild->value);
-            node->leftChild = deletePIZDEC(node->leftChild, nodeLeftBiggestChild->key, isClimb);
+            node->leftChild = removeValue(node->leftChild, nodeLeftBiggestChild->key, isClimb);
             ++balanceDifference;
         }
     }
     else if (strcmp(key, node->key) < 0)
     {
-        node->leftChild = deletePIZDEC(node->leftChild, key, isClimb);
+        node->leftChild = removeValue(node->leftChild, key, isClimb);
         ++balanceDifference;
     }
     else
     {
-        node->rightChild = deletePIZDEC(node->rightChild, key, isClimb);
+        node->rightChild = removeValue(node->rightChild, key, isClimb);
         --balanceDifference;
     }
 
@@ -297,7 +297,7 @@ Tree *deletePIZDEC(Tree *node, char *key, bool *isClimb)
 Tree *deleteValue(Tree *root, char *key)
 {
     bool isClimb = true;
-    return deletePIZDEC(root, key, &isClimb);
+    return removeValue(root, key, &isClimb);
 }
 
 void printTree(Tree *root)
