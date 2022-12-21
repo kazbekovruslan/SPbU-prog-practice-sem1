@@ -7,13 +7,14 @@
 typedef struct Tree
 {
     int value;    // значение для числа
-    char element; // /,+,*,-,(,) и -1, если число
+    char element; // /,+,*,- и -1, если число
     struct Tree *leftChild;
     struct Tree *rightChild;
 } Tree;
 
 Error buildTree(Tree **root, FILE *file)
 {
+    Error errorCode = OK;
     while (true)
     {
         char currentSymbol = getc(file);
@@ -36,14 +37,16 @@ Error buildTree(Tree **root, FILE *file)
             }
 
             (*root)->element = currentSymbol;
-            if (buildTree(&(*root)->leftChild, file) == MemoryAllocationError)
+            errorCode = buildTree(&(*root)->leftChild, file);
+            if (errorCode != OK)
             {
-                return MemoryAllocationError;
+                return errorCode;
             }
 
-            if (buildTree(&(*root)->rightChild, file) == MemoryAllocationError)
+            errorCode = buildTree(&(*root)->rightChild, file);
+            if (errorCode != OK)
             {
-                return MemoryAllocationError;
+                return errorCode;
             }
             break;
         default: // numbers
@@ -55,7 +58,10 @@ Error buildTree(Tree **root, FILE *file)
 
             (*root)->element = -1;
             ungetc(currentSymbol, file);
-            fscanf(file, "%d", &(*root)->value);
+            if (fscanf(file, "%d", &(*root)->value) == 0)
+            {
+                return IncorrectExpression;
+            }
             return OK;
         }
     }
@@ -78,7 +84,7 @@ int calculateTree(Tree *root)
     case '*':
         return leftResult * rightResult;
     case '/':
-        return leftResult / rightResult;
+        return leftResult / rightResult; // деление на 0
     case -1:
         return root->value;
     }

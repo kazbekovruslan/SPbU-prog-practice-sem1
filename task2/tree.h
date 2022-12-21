@@ -1,13 +1,12 @@
 #pragma once
 #include <stdio.h>
 
-typedef int Error;
-
 typedef enum
 {
     OK = 0,
-    MemoryAllocationError = -1
-} Errors;
+    MemoryAllocationError = -1,
+    IncorrectExpression = -2
+} Error;
 
 typedef struct Tree Tree;
 

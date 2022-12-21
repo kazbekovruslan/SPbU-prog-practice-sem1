@@ -2,6 +2,21 @@
 #include <stdlib.h>
 #include "tree.h"
 
+void printErrors(Error errorCode)
+{
+    switch (errorCode)
+    {
+    case OK:
+        break;
+    case MemoryAllocationError:
+        printf("Memory allocation error!\n");
+        break;
+    case IncorrectExpression:
+        printf("Incorrect expression in input file!\n");
+        break;
+    }
+}
+
 int main()
 {
     FILE *file = fopen("../../task2/input.txt", "r");
@@ -12,8 +27,11 @@ int main()
     }
 
     Tree *root = NULL;
-    if (buildTree(&root, file) == MemoryAllocationError)
+    Error errorCode = OK;
+    errorCode = buildTree(&root, file);
+    if (errorCode != OK)
     {
+        printErrors(errorCode);
         freeTree(&root);
         return -1;
     }
@@ -23,3 +41,5 @@ int main()
     freeTree(&root);
     return 0;
 }
+
+// тесты для buildTree и calculateTree
