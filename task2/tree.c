@@ -2,13 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef int Error;
-
-typedef enum
-{
-    OK = 0,
-    MemoryAllocationError = -1
-} Errors;
+#include "tree.h"
 
 typedef struct Tree
 {

@@ -2,12 +2,6 @@
 #include <stdlib.h>
 #include "tree.h"
 
-typedef enum
-{
-    OK = 0,
-    MemoryAllocationError = -1
-} Errors;
-
 int main()
 {
     FILE *file = fopen("../../task2/input.txt", "r");

@@ -3,16 +3,22 @@
 
 typedef int Error;
 
+typedef enum
+{
+    OK = 0,
+    MemoryAllocationError = -1
+} Errors;
+
 typedef struct Tree Tree;
 
-//строит дерево разбора арифметического выражения по строчке
+// строит дерево разбора арифметического выражения по строчке
 Error buildTree(Tree **root, FILE *file);
 
-//вычисляет значение дерева разбора арифметического выражения
+// вычисляет значение дерева разбора арифметического выражения
 int calculateTree(Tree *root);
 
-//выводит дерево
+// выводит дерево
 void printTree(Tree *root);
 
-//очищает дерево
+// очищает дерево
 void freeTree(Tree **root);
