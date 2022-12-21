@@ -120,3 +120,30 @@ void freeTree(Tree **root)
     freeTree(&(*root)->rightChild);
     free(*root);
 }
+
+bool buildTreeTest()
+{
+    FILE *file = fopen("../../task2/test.txt", "r");
+    if (file == NULL)
+    {
+        return false;
+    }
+
+    Tree *root = NULL;
+    Error errorCode = OK;
+    errorCode = buildTree(&root, file);
+    if (errorCode != OK)
+    {
+        freeTree(&root);
+        return false;
+    }
+
+    if (!(root->element == '/' && root->leftChild->element == '-' && root->leftChild->leftChild->value == 1 &&
+          root->leftChild->rightChild->value == 1 && root->rightChild->value == 1))
+    {
+        freeTree(&root);
+        return false;
+    }
+
+    return true;
+}

@@ -5,7 +5,8 @@ typedef enum
 {
     OK = 0,
     MemoryAllocationError = -1,
-    IncorrectExpression = -2
+    IncorrectExpression = -2,
+    DivisionByZero = -3
 } Error;
 
 typedef struct Tree Tree;
