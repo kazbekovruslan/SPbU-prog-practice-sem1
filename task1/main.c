@@ -28,7 +28,7 @@ char binaryTriadToOctalDigit(char *binaryTriad)
 
 void binaryToOctal(char *binaryNumber, char *octalNumber)
 {
-    int startIndex = 0; // also a number of 0
+    int startIndex = 0; // также количество нулей
     int binaryNumberLength = strlen(binaryNumber);
     for (int i = 0; i < binaryNumberLength; ++i)
     {
