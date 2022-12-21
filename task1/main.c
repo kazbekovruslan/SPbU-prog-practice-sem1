@@ -5,12 +5,6 @@
 
 #define maxLength 256
 
-typedef enum
-{
-    MemoryAllocationError = -1,
-    OK = 0
-} Errors;
-
 void printFunctions()
 {
     printf("Functions:\n");
@@ -48,7 +42,7 @@ int main()
 
         switch (function)
         {
-        case 1: //добавить значение по заданному ключу в словарь
+        case 1: // добавить значение по заданному ключу в словарь
         {
             scanResult = 0;
             while (!scanResult)
@@ -72,7 +66,7 @@ int main()
             printf("Value added successfully!\n");
             break;
         }
-        case 2: //получить значение по заданному ключу из словаря
+        case 2: // получить значение по заданному ключу из словаря
         {
             scanResult = 0;
             while (!scanResult)
@@ -88,7 +82,7 @@ int main()
             printf("Value for your key: %s\n", findValueByKey(root, key));
             break;
         }
-        case 3: //проверить наличие заданного ключа в словаре
+        case 3: // проверить наличие заданного ключа в словаре
         {
             scanResult = 0;
             while (!scanResult)
@@ -109,7 +103,7 @@ int main()
             printf("Value is NOT in the dictionary!\n");
             break;
         }
-        case 4: //удалить заданный ключ и связанное с ним значение из словаря
+        case 4: // удалить заданный ключ и связанное с ним значение из словаря
         {
             scanResult = 0;
             while (!scanResult)

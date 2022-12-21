@@ -2,6 +2,12 @@
 
 typedef int Error;
 
+typedef enum
+{
+    MemoryAllocationError = -1,
+    OK = 0
+} Errors;
+
 typedef struct Tree Tree;
 
 // add value by key. If there is such key, new value replace old value

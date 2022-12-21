@@ -4,14 +4,6 @@
 
 #include "tree.h"
 
-typedef int Error;
-
-typedef enum
-{
-    MemoryAllocationError = -1,
-    OK = 0
-} Errors;
-
 typedef struct Tree
 {
     int key;
@@ -111,14 +103,14 @@ void deleteValue(Tree **root, int key)
     Tree **deletedNode = findNode(&(*root), key);
     if (*deletedNode != NULL)
     {
-        if ((*deletedNode)->leftChild == NULL) //если слева нет ребенка - просто берем правого
+        if ((*deletedNode)->leftChild == NULL) // если слева нет ребенка - просто берем правого
         {
             Tree *freedNode = *deletedNode;
             *deletedNode = (*deletedNode)->rightChild;
             free(freedNode->value);
             free(freedNode);
         }
-        else //если слева есть ребенок - ищем максимального потомка слева и ставим на место удаляемого
+        else // если слева есть ребенок - ищем максимального потомка слева и ставим на место удаляемого
         {
             Tree *freedNode = *deletedNode;
             Tree *deletedNodeRightChild = (*deletedNode)->rightChild;
