@@ -53,14 +53,13 @@ void binaryToOctal(char *binaryNumber, char *octalNumber)
             iteratorForBuffer = 2;
             octalNumber[iteratorForOctal--] = binaryTriadToOctalDigit(buffer) + '0';
         }
-        if (counterForTriad != 0 && i == 0) // в начале нет полной триады
+        if (counterForTriad != 0 && i == startIndex) // в начале нет полной триады
         {
             for (int j = 0; j < 3 - counterForTriad; ++j)
             {
                 buffer[j] = '0';
             }
             octalNumber[iteratorForOctal--] = binaryTriadToOctalDigit(buffer) + '0';
-            break;
         }
     }
 }
@@ -68,16 +67,17 @@ void binaryToOctal(char *binaryNumber, char *octalNumber)
 int main()
 {
     char binaryNumber[maxLengthForBinary] = {0};
-    printf("Enter the binary number: ");
+    printf("Enter the binary number (length <= 256): ");
     scanf("%s", binaryNumber);
     int iterator = 0;
     while (binaryNumber[iterator] != '\0')
     {
-        if (!(binaryNumber[iterator] == '0' && binaryNumber[iterator] == '1'))
+        if (!(binaryNumber[iterator] == '0' || binaryNumber[iterator] == '1'))
         {
             printf("Incorrect binary number! There are not only '0' and '1'!\n");
             return -2;
         }
+        ++iterator;
     }
     char *octalNumber = calloc(divisionWithRoundingUp(strlen(binaryNumber), 3) + 1, sizeof(char));
     if (octalNumber == NULL)
