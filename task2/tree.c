@@ -46,7 +46,7 @@ Error buildTree(Tree **root, FILE *file)
                 return MemoryAllocationError;
             }
             break;
-        default: // positive numbers
+        default: // numbers
             *root = calloc(1, sizeof(Tree));
             if (*root == NULL)
             {
