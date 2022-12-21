@@ -12,6 +12,11 @@ typedef struct Tree
     struct Tree *rightChild;
 } Tree;
 
+Tree *createEmptyTree()
+{
+    return NULL;
+}
+
 // a
 Error addValue(Tree **root, char *value, int key)
 {
@@ -61,11 +66,11 @@ char *findValueByKey(Tree *root, int key)
     }
     if (key < root->key)
     {
-        findValueByKey(root->leftChild, key);
+        return findValueByKey(root->leftChild, key);
     }
     else if (key > root->key)
     {
-        findValueByKey(root->rightChild, key);
+        return findValueByKey(root->rightChild, key);
     }
     else
     {
@@ -77,15 +82,15 @@ Tree **findNode(Tree **root, int key)
 {
     if (*root == NULL)
     {
-        return;
+        return NULL;
     }
     if (key < (*root)->key)
     {
-        root = findNode(&(*root)->leftChild, key);
+        return findNode(&(*root)->leftChild, key);
     }
     else if (key > (*root)->key)
     {
-        root = findNode(&(*root)->rightChild, key);
+        return findNode(&(*root)->rightChild, key);
     }
     else
     {
