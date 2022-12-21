@@ -23,11 +23,11 @@ char *findValueByKey(Tree *node, char *key)
 
     if (strcmp(key, node->key) < 0)
     {
-        findValueByKey(node->leftChild, key);
+        return findValueByKey(node->leftChild, key);
     }
     else if (strcmp(key, node->key) > 0)
     {
-        findValueByKey(node->rightChild, key);
+        return findValueByKey(node->rightChild, key);
     }
     else
     {
@@ -37,64 +37,64 @@ char *findValueByKey(Tree *node, char *key)
 
 Tree *rotateLeft(Tree *node)
 {
-    Tree *deletedNodeRightChild = node->rightChild;
-    Tree *leftOfRightChild = deletedNodeRightChild->leftChild;
-    deletedNodeRightChild->leftChild = node;
+    Tree *movedNodeRightChild = node->rightChild;
+    Tree *leftOfRightChild = movedNodeRightChild->leftChild;
+    movedNodeRightChild->leftChild = node;
     node->rightChild = leftOfRightChild;
-    if (deletedNodeRightChild->balance == 0)
+    if (movedNodeRightChild->balance == 0)
     {
-        deletedNodeRightChild->balance = -1;
+        movedNodeRightChild->balance = -1;
         node->balance = 1;
     }
     else
     {
-        deletedNodeRightChild->balance = 0;
+        movedNodeRightChild->balance = 0;
         node->balance = 0;
     }
-    return deletedNodeRightChild;
+    return movedNodeRightChild;
 }
 
 Tree *rotateRight(Tree *node)
 {
-    Tree *deletedNodeLeftChild = node->leftChild;
-    Tree *rightOfLeftChild = deletedNodeLeftChild->rightChild;
-    deletedNodeLeftChild->rightChild = node;
+    Tree *movedNodeLeftChild = node->leftChild;
+    Tree *rightOfLeftChild = movedNodeLeftChild->rightChild;
+    movedNodeLeftChild->rightChild = node;
     node->leftChild = rightOfLeftChild;
-    if (deletedNodeLeftChild->balance == 0)
+    if (movedNodeLeftChild->balance == 0)
     {
-        deletedNodeLeftChild->balance = 1;
+        movedNodeLeftChild->balance = 1;
         node->balance = -1;
     }
     else
     {
-        deletedNodeLeftChild->balance = 0;
+        movedNodeLeftChild->balance = 0;
         node->balance = 0;
     }
-    return deletedNodeLeftChild;
+    return movedNodeLeftChild;
 }
 
 Tree *bigRotateLeft(Tree *node)
 {
-    Tree *deletedNodeRightChild = node->rightChild;
-    Tree *leftOfRightChild = deletedNodeRightChild->leftChild;
+    Tree *movedNodeRightChild = node->rightChild;
+    Tree *leftOfRightChild = movedNodeRightChild->leftChild;
     Tree *leftOfLeftOfRightChild = leftOfRightChild->leftChild;
     Tree *rightOfLeftOfRightChild = leftOfRightChild->rightChild;
     leftOfRightChild->leftChild = node;
-    leftOfRightChild->rightChild = deletedNodeRightChild;
+    leftOfRightChild->rightChild = movedNodeRightChild;
     node->rightChild = leftOfLeftOfRightChild;
-    deletedNodeRightChild->leftChild = rightOfLeftOfRightChild;
+    movedNodeRightChild->leftChild = rightOfLeftOfRightChild;
     switch (leftOfRightChild->balance)
     {
     case -1:
-        deletedNodeRightChild->balance = 1;
+        movedNodeRightChild->balance = 1;
         node->balance = 0;
         break;
     case 0:
-        deletedNodeRightChild->balance = 0;
+        movedNodeRightChild->balance = 0;
         node->balance = 0;
         break;
     case 1:
-        deletedNodeRightChild->balance = 0;
+        movedNodeRightChild->balance = 0;
         node->balance = -1;
         break;
     }
@@ -104,26 +104,26 @@ Tree *bigRotateLeft(Tree *node)
 
 Tree *bigRotateRight(Tree *node)
 {
-    Tree *deletedNodeLeftChild = node->leftChild;
-    Tree *rightOfLeftChild = deletedNodeLeftChild->rightChild;
+    Tree *movedNodeLeftChild = node->leftChild;
+    Tree *rightOfLeftChild = movedNodeLeftChild->rightChild;
     Tree *leftOfRightOfLeftChild = rightOfLeftChild->leftChild;
     Tree *rightOfRightOfLeftChild = rightOfLeftChild->rightChild;
-    rightOfLeftChild->leftChild = deletedNodeLeftChild;
+    rightOfLeftChild->leftChild = movedNodeLeftChild;
     rightOfLeftChild->rightChild = node;
-    deletedNodeLeftChild->rightChild = leftOfRightOfLeftChild;
+    movedNodeLeftChild->rightChild = leftOfRightOfLeftChild;
     node->leftChild = rightOfRightOfLeftChild;
     switch (rightOfLeftChild->balance)
     {
     case -1:
-        deletedNodeLeftChild->balance = 0;
+        movedNodeLeftChild->balance = 0;
         node->balance = 1;
         break;
     case 0:
-        deletedNodeLeftChild->balance = 0;
+        movedNodeLeftChild->balance = 0;
         node->balance = 0;
         break;
     case 1:
-        deletedNodeLeftChild->balance = -1;
+        movedNodeLeftChild->balance = -1;
         node->balance = 0;
         break;
     }
@@ -155,6 +155,10 @@ Tree *balance(Tree *node)
 Tree *createNode(char *key, char *value)
 {
     Tree *newNode = calloc(1, sizeof(Tree));
+    if (newNode == NULL)
+    {
+        return NULL;
+    }
     newNode->key = calloc(strlen(key) + 1, sizeof(char));
     if (newNode->key == NULL)
     {
@@ -167,7 +171,6 @@ Tree *createNode(char *key, char *value)
     }
     strcpy(newNode->key, key);
     strcpy(newNode->value, value);
-    newNode->balance = 0;
     return newNode;
 }
 
@@ -200,12 +203,12 @@ Tree *insert(Tree *node, char *key, char *value, bool *isClimb, Error *errorCode
     else if (strcmp(key, node->key) < 0)
     {
         node->leftChild = insert(node->leftChild, key, value, isClimb, errorCode);
-        --balanceDifference;
+        balanceDifference = -1;
     }
     else
     {
         node->rightChild = insert(node->rightChild, key, value, isClimb, errorCode);
-        ++balanceDifference;
+        balanceDifference = 1;
     }
 
     if (!*isClimb)
@@ -266,18 +269,18 @@ Tree *removeValue(Tree *node, char *key, bool *isClimb)
             strcpy(node->key, nodeLeftBiggestChild->key);
             strcpy(node->value, nodeLeftBiggestChild->value);
             node->leftChild = removeValue(node->leftChild, nodeLeftBiggestChild->key, isClimb);
-            ++balanceDifference;
+            balanceDifference = 1;
         }
     }
     else if (strcmp(key, node->key) < 0)
     {
         node->leftChild = removeValue(node->leftChild, key, isClimb);
-        ++balanceDifference;
+        balanceDifference = 1;
     }
     else
     {
         node->rightChild = removeValue(node->rightChild, key, isClimb);
-        --balanceDifference;
+        balanceDifference = -1;
     }
 
     if (!*isClimb)

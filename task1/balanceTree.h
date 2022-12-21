@@ -1,12 +1,10 @@
 #pragma once
 
-typedef int Error;
-
 typedef enum
 {
     MemoryAllocationError = -1,
     OK = 0
-} Errors;
+} Error;
 
 typedef struct Tree Tree;
 
