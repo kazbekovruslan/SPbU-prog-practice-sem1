@@ -28,6 +28,7 @@ Error buildTree(Tree **root, FILE *file)
         case '+':
         case '*':
         case '/':
+        case '-':
             *root = calloc(1, sizeof(Tree));
             if (*root == NULL)
             {
@@ -45,33 +46,6 @@ Error buildTree(Tree **root, FILE *file)
                 return MemoryAllocationError;
             }
             break;
-        case '-':
-            *root = calloc(1, sizeof(Tree));
-            if (*root == NULL)
-            {
-                return MemoryAllocationError;
-            }
-
-            char nextSymbol = getc(file);
-            ungetc(nextSymbol, file);
-            if (nextSymbol >= '0' && nextSymbol <= '9') // negative numbers
-            {
-                ungetc(currentSymbol, file);
-                fscanf(file, "%d", (*root)->value);
-                (*root)->element = -1;
-            }
-
-            (*root)->element = currentSymbol;
-            if (buildTree(&(*root)->leftChild, file) == MemoryAllocationError)
-            {
-                return MemoryAllocationError;
-            }
-
-            if (buildTree(&(*root)->rightChild, file) == MemoryAllocationError)
-            {
-                return MemoryAllocationError;
-            }
-            return OK;
         default: // positive numbers
             *root = calloc(1, sizeof(Tree));
             if (*root == NULL)
