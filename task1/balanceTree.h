@@ -2,6 +2,12 @@
 
 typedef int Error;
 
+typedef enum
+{
+    MemoryAllocationError = -1,
+    OK = 0
+} Errors;
+
 typedef struct Tree Tree;
 
 // возвращает значение по ключу. Если нет такого ключа - возвращает NULL

@@ -5,14 +5,6 @@
 
 #include "balanceTree.h"
 
-typedef int Error;
-
-typedef enum
-{
-    MemoryAllocationError = -1,
-    OK = 0
-} Errors;
-
 typedef struct Tree
 {
     char *key;
@@ -259,8 +251,8 @@ Tree *deletePIZDEC(Tree *node, char *key, bool *isClimb)
     int balanceDifference = 0;
     if (strcmp(key, node->key) == 0)
     {
-        if (node->leftChild == NULL) //если слева нет ребенка - просто берем правого
-        {                            //тут все норм с балансом, ничего не меняем (просто двигаем правую ветку на один вверх)
+        if (node->leftChild == NULL) // если слева нет ребенка - просто берем правого
+        {                            // тут все норм с балансом, ничего не меняем (просто двигаем правую ветку на один вверх)
             Tree *freedNode = node;
             node = node->rightChild;
             free(freedNode->value);
@@ -268,7 +260,7 @@ Tree *deletePIZDEC(Tree *node, char *key, bool *isClimb)
             free(freedNode);
             return node;
         }
-        else //если слева есть ребенок - ищем максимального потомка слева и ставим на место удаляемого
+        else // если слева есть ребенок - ищем максимального потомка слева и ставим на место удаляемого
         {
             Tree *nodeLeftBiggestChild = findLeftBiggest(node);
             strcpy(node->key, nodeLeftBiggestChild->key);
