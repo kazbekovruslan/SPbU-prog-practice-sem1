@@ -60,7 +60,7 @@ Error buildTree(Tree **root, FILE *file)
 
             char nextSymbol = getc(file);
             ungetc(nextSymbol, file);
-            if ((int)nextSymbol >= 48 && (int)nextSymbol <= 57) // negative numbers
+            if (nextSymbol >= '0' && nextSymbol <= '9') // negative numbers
             {
                 ungetc(currentSymbol, file);
                 fscanf(file, "%d", (*root)->value);
