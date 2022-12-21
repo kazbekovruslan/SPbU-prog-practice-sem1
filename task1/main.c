@@ -21,7 +21,7 @@ int main()
 {
     printf("---DICTIONARY---\n");
     printFunctions();
-    Tree *root = NULL;
+    Tree *root = createEmptyTree();
     bool exitFlag = false;
     char value[maxLength] = {0};
     int key = 0;
@@ -33,7 +33,7 @@ int main()
         {
             printf("\nEnter the number of the function (0 - 6): ");
             scanResult = scanf("%d", &function);
-            if (!scanResult || !(function >= 0 && function <= 5))
+            if (!scanResult || !(function >= 0 && function <= 6))
             {
                 printf("Incorrect input! Numbers 0 - 6 required. Try again!\n");
                 scanf("%*[^\n]");
@@ -61,6 +61,7 @@ int main()
             if (addValue(&root, value, key) == MemoryAllocationError)
             {
                 printf("Memory error!\n");
+                freeTree(&root);
                 return -1;
             }
             printf("Value added successfully!\n");

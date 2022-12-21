@@ -1,14 +1,15 @@
 #pragma once
 
-typedef int Error;
-
 typedef enum
 {
     MemoryAllocationError = -1,
     OK = 0
-} Errors;
+} Error;
 
 typedef struct Tree Tree;
+
+// creates empty tree, returns NULL
+Tree *createEmptyTree();
 
 // add value by key. If there is such key, new value replace old value
 // OK - no error (return 0), MemoryAllocationError - it's clear :) (return -1)
