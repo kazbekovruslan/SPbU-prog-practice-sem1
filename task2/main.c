@@ -110,6 +110,9 @@ Error findAndPrintSaddlePoints(int **matrix, int linesAmount, int columnsAmount)
     {
         printf("there are no saddle points in your matrix :(\n");
     }
+    free(maximumsInColumns);
+    free(minimumsInLines);
+    return OK;
 }
 
 int main()
