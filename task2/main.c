@@ -162,14 +162,14 @@ int main()
             if (errorCode != 1)
             {
                 printErrors(errorCode);
-                return errorCode;
                 fclose(file);
+                return errorCode;
             }
         }
     }
 
-    int tmp = 0;
-    errorCode = fscanf(file, "%d", &tmp);
+    int extraNumberInFile = 0;
+    errorCode = fscanf(file, "%d", &extraNumberInFile);
     if (errorCode != EOF)
     {
         printErrors(IncorrectInput);
