@@ -16,8 +16,6 @@ void printErrors(Error errorCode)
 {
     switch (errorCode)
     {
-    case OK:
-        break;
     case PointerIsNull:
         printf("Error with memory!\n");
         break;
