@@ -74,7 +74,7 @@ void findMaximumsInColumns(int **matrix, int linesAmount, int columnsAmount, int
 
 void findAndPrintSaddlePoints(int **matrix, int linesAmount, int columnsAmount, int *maximumsInColumns, int *minimumsInLines)
 {
-    bool saddlePointsFlag = false;
+    bool areThereSaddlePoints = false;
     printf("Saddle points: ");
     for (int i = 0; i < linesAmount; i++)
     {
@@ -83,12 +83,12 @@ void findAndPrintSaddlePoints(int **matrix, int linesAmount, int columnsAmount, 
             if (minimumsInLines[i] == maximumsInColumns[j])
             {
                 printf("%d %d\n", i, j);
-                saddlePointsFlag = true;
+                areThereSaddlePoints = true;
             }
         }
     }
 
-    if (!saddlePointsFlag)
+    if (!areThereSaddlePoints)
     {
         printf("there are no saddle points in your matrix :(\n");
     }
