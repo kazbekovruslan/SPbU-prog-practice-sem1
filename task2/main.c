@@ -8,7 +8,8 @@ typedef enum
     OK = 0,
     PointerIsNull = -1,
     FileNotFound = -2,
-    IncorrectInput = -3
+    IncorrectInput = -3,
+    MemoryAllocationError = -4
 } Error;
 
 void printErrors(Error errorCode)
@@ -25,6 +26,9 @@ void printErrors(Error errorCode)
         break;
     case IncorrectInput:
         printf("Incorrect data in input file!\n");
+        break;
+    case MemoryAllocationError:
+        printf("Memory allocation error!\n");
         break;
     }
 }
@@ -117,16 +121,16 @@ int main()
     int **matrix = calloc(linesAmount, sizeof(int *));
     if (matrix == NULL)
     {
-        printf("Memory allocation error!\n");
-        return -100;
+        printErrors(MemoryAllocationError);
+        return -4;
     }
     for (int i = 0; i < linesAmount; ++i)
     {
         matrix[i] = calloc(columnsAmount, sizeof(int));
         if (matrix[i] == NULL)
         {
-            printf("Memory allocation error!\n");
-            return -100;
+            printErrors(MemoryAllocationError);
+            return -4;
         }
     }
 
@@ -155,16 +159,16 @@ int main()
     int *minimumsInLines = calloc(linesAmount, sizeof(int));
     if (minimumsInLines == NULL)
     {
-        printf("Memory allocation error!\n");
-        return -100;
+        printErrors(MemoryAllocationError);
+        return -4;
     }
     findMinimumsInLines(matrix, linesAmount, columnsAmount, minimumsInLines);
 
     int *maximumsInColumns = calloc(columnsAmount, sizeof(int));
     if (maximumsInColumns == NULL)
     {
-        printf("Memory allocation error!\n");
-        return -100;
+        printErrors(MemoryAllocationError);
+        return -4;
     }
     findMaximumsInColumns(matrix, linesAmount, columnsAmount, maximumsInColumns);
 
