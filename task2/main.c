@@ -74,8 +74,24 @@ void findMaximumsInColumns(int **matrix, int linesAmount, int columnsAmount, int
     }
 }
 
-void findAndPrintSaddlePoints(int **matrix, int linesAmount, int columnsAmount, int *maximumsInColumns, int *minimumsInLines)
+Error findAndPrintSaddlePoints(int **matrix, int linesAmount, int columnsAmount)
 {
+    int *minimumsInLines = calloc(linesAmount, sizeof(int));
+    if (minimumsInLines == NULL)
+    {
+        printErrors(MemoryAllocationError);
+        return MemoryAllocationError;
+    }
+    findMinimumsInLines(matrix, linesAmount, columnsAmount, minimumsInLines);
+
+    int *maximumsInColumns = calloc(columnsAmount, sizeof(int));
+    if (maximumsInColumns == NULL)
+    {
+        printErrors(MemoryAllocationError);
+        return MemoryAllocationError;
+    }
+    findMaximumsInColumns(matrix, linesAmount, columnsAmount, maximumsInColumns);
+
     bool areThereSaddlePoints = false;
     printf("Saddle points: ");
     for (int i = 0; i < linesAmount; i++)
@@ -113,6 +129,7 @@ int main()
     if (errorCode != 2)
     {
         printErrors(errorCode);
+        fclose(file);
         return IncorrectInput;
     }
 
@@ -120,7 +137,8 @@ int main()
     if (matrix == NULL)
     {
         printErrors(MemoryAllocationError);
-        return -4;
+        fclose(file);
+        return MemoryAllocationError;
     }
     for (int i = 0; i < linesAmount; ++i)
     {
@@ -128,7 +146,8 @@ int main()
         if (matrix[i] == NULL)
         {
             printErrors(MemoryAllocationError);
-            return -4;
+            fclose(file);
+            return MemoryAllocationError;
         }
     }
 
@@ -140,6 +159,8 @@ int main()
             if (errorCode != 1)
             {
                 printErrors(errorCode);
+                return errorCode;
+                fclose(file);
             }
         }
     }
@@ -149,28 +170,19 @@ int main()
     if (errorCode != EOF)
     {
         printErrors(IncorrectInput);
+        fclose(file);
         return IncorrectInput;
     }
+    fclose(file);
 
     printMatrix(matrix, linesAmount, columnsAmount);
 
-    int *minimumsInLines = calloc(linesAmount, sizeof(int));
-    if (minimumsInLines == NULL)
+    errorCode = findAndPrintSaddlePoints(matrix, linesAmount, columnsAmount);
+    if (errorCode != OK)
     {
-        printErrors(MemoryAllocationError);
-        return -4;
+        printErrors(errorCode);
+        return errorCode;
     }
-    findMinimumsInLines(matrix, linesAmount, columnsAmount, minimumsInLines);
-
-    int *maximumsInColumns = calloc(columnsAmount, sizeof(int));
-    if (maximumsInColumns == NULL)
-    {
-        printErrors(MemoryAllocationError);
-        return -4;
-    }
-    findMaximumsInColumns(matrix, linesAmount, columnsAmount, maximumsInColumns);
-
-    findAndPrintSaddlePoints(matrix, linesAmount, columnsAmount, maximumsInColumns, minimumsInLines);
 
     for (int i = 0; i < linesAmount; ++i)
     {
