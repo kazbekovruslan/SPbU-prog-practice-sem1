@@ -102,7 +102,7 @@ int main()
     FILE *file = fopen("matrix.txt", "r");
     if (file == NULL)
     {
-        printf("File not found!\n");
+        printErrors(errorCode);
         return FileNotFound;
     }
 
